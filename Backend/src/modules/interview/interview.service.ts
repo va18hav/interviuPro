@@ -43,6 +43,8 @@ export const startInterview = async (interviewId: string, userId: string) => {
         userId,
         interviewId,
         startedAt: new Date(),
+        duration: context.duration,
+        elapsedSeconds: 0,
         prompt,
         geminiToken: ''
     }
@@ -65,6 +67,16 @@ export const setupGemini = async (sessionId: string, userId: string) => {
     const cacheHistory = await getCacheHistory(sessionId)
     const geminiSession = await setupGeminiConnection(sessionId, cacheSession.prompt)
     session.geminiSocket = geminiSession
+    session.timerStartedAt = new Date()
+    const remainingSeconds = (cacheSession.duration * 60) - cacheSession.elapsedSeconds
+    session.timer = setTimeout(() => {
+        geminiSession?.sendRealtimeInput({
+            text: 'The specified duration of the interview is up, so wrap up the interview'
+        })
+        session.graceTimer = setTimeout(async () => {
+            await cleanupSession(sessionId, 'duration_up')
+        }, 40000)
+    }, remainingSeconds * 1000)
     if (cacheHistory.length <= 1) {
         geminiSession?.sendRealtimeInput({
             text: 'Start the interview and follow the system instructions accordingly'

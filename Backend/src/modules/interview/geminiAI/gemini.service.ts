@@ -82,7 +82,7 @@ export const setupGeminiConnection = async (sessionId: string, systemPrompt: str
                 },
 
                 onmessage: async (response: any) => {
-                    console.log(response)
+                    // console.log(response)
                     const content = response.serverContent;
                     const sessionResumption = response.sessionResumptionUpdate
                     const pushTranscript = async (role: 'user' | 'assistant', content: string) => {

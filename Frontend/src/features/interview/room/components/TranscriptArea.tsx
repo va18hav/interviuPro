@@ -93,7 +93,7 @@ export default function TranscriptArea() {
   }
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:3000/session/0afd7dde-11c4-411b-a692-0101dfcb7c22")
+    const socket = new WebSocket("ws://localhost:3000/session/fe2ca061-ea03-4795-b951-81beece95bf6")
     socketRef.current = socket
     // Initialize the AudioContext
     const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)({

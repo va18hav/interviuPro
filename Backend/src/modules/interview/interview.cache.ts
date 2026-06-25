@@ -6,6 +6,8 @@ export interface CachedSession {
     userId: string
     interviewId: string
     startedAt: Date
+    duration: number
+    elapsedSeconds: number
     prompt: string
     geminiToken: string | null | undefined
 }
@@ -20,6 +22,8 @@ export const cacheSession = async (data: CachedSession) => {
         userId: data.userId,
         interviewId: data.interviewId,
         startedAt: data.startedAt.toISOString(),
+        duration: data.duration,
+        elapsedSeconds: data.elapsedSeconds,
         prompt: data.prompt,
         geminiToken: data.geminiToken ?? ""
     })
@@ -48,6 +52,8 @@ export const getCacheSession = async (sessionId: string): Promise<CachedSession 
         userId: data.userId,
         interviewId: data.interviewId,
         startedAt: new Date(data.startedAt),
+        duration: +data.duration,
+        elapsedSeconds: +data.elapsedSeconds,
         prompt: data.prompt,
         geminiToken: data.geminiToken
     }
@@ -59,10 +65,21 @@ export const getCacheHistory = async (sessionId: string) => {
     return messages.map(m => JSON.parse(m))
 }
 
+export const pauseTimer = async (sessionId: string, elapsedSeconds: number) => {
+    const key = sessionKey(sessionId)
+    const storedSeconds = await redis.hget(key, 'elapsedSeconds')
+    if (!storedSeconds) return
+    if (+storedSeconds > 0) {
+        elapsedSeconds = +storedSeconds + elapsedSeconds
+    }
+    await redis.hset(key, 'elapsedSeconds', elapsedSeconds)
+}
+
 export const deleteCacheSession = async (sessionId: string) => {
     const deleted = await redis.del(
         sessionKey(sessionId),
         historyKey(sessionId)
     )
 }
+
 
