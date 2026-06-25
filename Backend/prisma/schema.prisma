@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                  String      @id @default(uuid())
+  email               String      @unique
+  hashedPassword      String
+  onboardingCompleted Boolean     @default(false)
+  createdAt           DateTime    @default(now())
+  profiles            Profile[]
+  interviews          Interview[]
+}
+
+model Profile {
+  id         String   @id @default(uuid())
+  userId     String   @unique
+  firstName  String
+  lastName   String?
+  credits    Int      @default(100)
+  skills     Json?
+  resumeUrl  String?
+  resumeText String?
+  updatedAt  DateTime @updatedAt
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Interview {
+  id             String     @id @default(uuid())
+  userId         String
+  title          String
+  type           String
+  role           String
+  skills         String
+  jobDescription String?
+  experience     String
+  duration       Int
+  user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  feedbacks      Feedback[]
+  sessions       Session[]
+}
+
+model Session {
+  id          String    @id @default(uuid())
+  interviewId String
+  startedAt   DateTime?
+  endedAt     DateTime?
+  duration    Int?
+  transcript  Json
+  interview   Interview @relation(fields: [interviewId], references: [id])
+}
+
+model Feedback {
+  id           String    @id @default(uuid())
+  interviewId  String
+  score        Int
+  feedbackData String
+  interview    Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+}
