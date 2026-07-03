@@ -40,8 +40,6 @@ export type ProfileMinAggregateOutputType = {
   firstName: string | null
   lastName: string | null
   credits: number | null
-  resumeUrl: string | null
-  resumeText: string | null
   updatedAt: Date | null
 }
 
@@ -51,8 +49,6 @@ export type ProfileMaxAggregateOutputType = {
   firstName: string | null
   lastName: string | null
   credits: number | null
-  resumeUrl: string | null
-  resumeText: string | null
   updatedAt: Date | null
 }
 
@@ -63,8 +59,6 @@ export type ProfileCountAggregateOutputType = {
   lastName: number
   credits: number
   skills: number
-  resumeUrl: number
-  resumeText: number
   updatedAt: number
   _all: number
 }
@@ -84,8 +78,6 @@ export type ProfileMinAggregateInputType = {
   firstName?: true
   lastName?: true
   credits?: true
-  resumeUrl?: true
-  resumeText?: true
   updatedAt?: true
 }
 
@@ -95,8 +87,6 @@ export type ProfileMaxAggregateInputType = {
   firstName?: true
   lastName?: true
   credits?: true
-  resumeUrl?: true
-  resumeText?: true
   updatedAt?: true
 }
 
@@ -107,8 +97,6 @@ export type ProfileCountAggregateInputType = {
   lastName?: true
   credits?: true
   skills?: true
-  resumeUrl?: true
-  resumeText?: true
   updatedAt?: true
   _all?: true
 }
@@ -203,11 +191,9 @@ export type ProfileGroupByOutputType = {
   id: string
   userId: string
   firstName: string
-  lastName: string | null
+  lastName: string
   credits: number
   skills: runtime.JsonValue | null
-  resumeUrl: string | null
-  resumeText: string | null
   updatedAt: Date
   _count: ProfileCountAggregateOutputType | null
   _avg: ProfileAvgAggregateOutputType | null
@@ -238,11 +224,9 @@ export type ProfileWhereInput = {
   id?: Prisma.StringFilter<"Profile"> | string
   userId?: Prisma.StringFilter<"Profile"> | string
   firstName?: Prisma.StringFilter<"Profile"> | string
-  lastName?: Prisma.StringNullableFilter<"Profile"> | string | null
+  lastName?: Prisma.StringFilter<"Profile"> | string
   credits?: Prisma.IntFilter<"Profile"> | number
   skills?: Prisma.JsonNullableFilter<"Profile">
-  resumeUrl?: Prisma.StringNullableFilter<"Profile"> | string | null
-  resumeText?: Prisma.StringNullableFilter<"Profile"> | string | null
   updatedAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
@@ -251,11 +235,9 @@ export type ProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
-  lastName?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastName?: Prisma.SortOrder
   credits?: Prisma.SortOrder
   skills?: Prisma.SortOrderInput | Prisma.SortOrder
-  resumeUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  resumeText?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
@@ -267,11 +249,9 @@ export type ProfileWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ProfileWhereInput[]
   NOT?: Prisma.ProfileWhereInput | Prisma.ProfileWhereInput[]
   firstName?: Prisma.StringFilter<"Profile"> | string
-  lastName?: Prisma.StringNullableFilter<"Profile"> | string | null
+  lastName?: Prisma.StringFilter<"Profile"> | string
   credits?: Prisma.IntFilter<"Profile"> | number
   skills?: Prisma.JsonNullableFilter<"Profile">
-  resumeUrl?: Prisma.StringNullableFilter<"Profile"> | string | null
-  resumeText?: Prisma.StringNullableFilter<"Profile"> | string | null
   updatedAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "userId">
@@ -280,11 +260,9 @@ export type ProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   firstName?: Prisma.SortOrder
-  lastName?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastName?: Prisma.SortOrder
   credits?: Prisma.SortOrder
   skills?: Prisma.SortOrderInput | Prisma.SortOrder
-  resumeUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  resumeText?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ProfileCountOrderByAggregateInput
   _avg?: Prisma.ProfileAvgOrderByAggregateInput
@@ -300,22 +278,18 @@ export type ProfileScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Profile"> | string
   userId?: Prisma.StringWithAggregatesFilter<"Profile"> | string
   firstName?: Prisma.StringWithAggregatesFilter<"Profile"> | string
-  lastName?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
+  lastName?: Prisma.StringWithAggregatesFilter<"Profile"> | string
   credits?: Prisma.IntWithAggregatesFilter<"Profile"> | number
   skills?: Prisma.JsonNullableWithAggregatesFilter<"Profile">
-  resumeUrl?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
-  resumeText?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Profile"> | Date | string
 }
 
 export type ProfileCreateInput = {
   id?: string
   firstName: string
-  lastName?: string | null
+  lastName: string
   credits?: number
   skills?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resumeUrl?: string | null
-  resumeText?: string | null
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutProfilesInput
 }
@@ -324,22 +298,18 @@ export type ProfileUncheckedCreateInput = {
   id?: string
   userId: string
   firstName: string
-  lastName?: string | null
+  lastName: string
   credits?: number
   skills?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resumeUrl?: string | null
-  resumeText?: string | null
   updatedAt?: Date | string
 }
 
 export type ProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
   credits?: Prisma.IntFieldUpdateOperationsInput | number
   skills?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutProfilesNestedInput
 }
@@ -348,11 +318,9 @@ export type ProfileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
   credits?: Prisma.IntFieldUpdateOperationsInput | number
   skills?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -360,22 +328,18 @@ export type ProfileCreateManyInput = {
   id?: string
   userId: string
   firstName: string
-  lastName?: string | null
+  lastName: string
   credits?: number
   skills?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resumeUrl?: string | null
-  resumeText?: string | null
   updatedAt?: Date | string
 }
 
 export type ProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
   credits?: Prisma.IntFieldUpdateOperationsInput | number
   skills?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -383,22 +347,15 @@ export type ProfileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
   credits?: Prisma.IntFieldUpdateOperationsInput | number
   skills?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type ProfileListRelationFilter = {
-  every?: Prisma.ProfileWhereInput
-  some?: Prisma.ProfileWhereInput
-  none?: Prisma.ProfileWhereInput
-}
-
-export type ProfileOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type ProfileNullableScalarRelationFilter = {
+  is?: Prisma.ProfileWhereInput | null
+  isNot?: Prisma.ProfileWhereInput | null
 }
 
 export type ProfileCountOrderByAggregateInput = {
@@ -408,8 +365,6 @@ export type ProfileCountOrderByAggregateInput = {
   lastName?: Prisma.SortOrder
   credits?: Prisma.SortOrder
   skills?: Prisma.SortOrder
-  resumeUrl?: Prisma.SortOrder
-  resumeText?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -423,8 +378,6 @@ export type ProfileMaxOrderByAggregateInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   credits?: Prisma.SortOrder
-  resumeUrl?: Prisma.SortOrder
-  resumeText?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -434,8 +387,6 @@ export type ProfileMinOrderByAggregateInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   credits?: Prisma.SortOrder
-  resumeUrl?: Prisma.SortOrder
-  resumeText?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -443,50 +394,36 @@ export type ProfileSumOrderByAggregateInput = {
   credits?: Prisma.SortOrder
 }
 
-export type ProfileCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.ProfileCreateWithoutUserInput, Prisma.ProfileUncheckedCreateWithoutUserInput> | Prisma.ProfileCreateWithoutUserInput[] | Prisma.ProfileUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.ProfileCreateOrConnectWithoutUserInput | Prisma.ProfileCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.ProfileCreateManyUserInputEnvelope
-  connect?: Prisma.ProfileWhereUniqueInput | Prisma.ProfileWhereUniqueInput[]
+export type ProfileCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.ProfileCreateWithoutUserInput, Prisma.ProfileUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.ProfileCreateOrConnectWithoutUserInput
+  connect?: Prisma.ProfileWhereUniqueInput
 }
 
-export type ProfileUncheckedCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.ProfileCreateWithoutUserInput, Prisma.ProfileUncheckedCreateWithoutUserInput> | Prisma.ProfileCreateWithoutUserInput[] | Prisma.ProfileUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.ProfileCreateOrConnectWithoutUserInput | Prisma.ProfileCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.ProfileCreateManyUserInputEnvelope
-  connect?: Prisma.ProfileWhereUniqueInput | Prisma.ProfileWhereUniqueInput[]
+export type ProfileUncheckedCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.ProfileCreateWithoutUserInput, Prisma.ProfileUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.ProfileCreateOrConnectWithoutUserInput
+  connect?: Prisma.ProfileWhereUniqueInput
 }
 
-export type ProfileUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.ProfileCreateWithoutUserInput, Prisma.ProfileUncheckedCreateWithoutUserInput> | Prisma.ProfileCreateWithoutUserInput[] | Prisma.ProfileUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.ProfileCreateOrConnectWithoutUserInput | Prisma.ProfileCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.ProfileUpsertWithWhereUniqueWithoutUserInput | Prisma.ProfileUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.ProfileCreateManyUserInputEnvelope
-  set?: Prisma.ProfileWhereUniqueInput | Prisma.ProfileWhereUniqueInput[]
-  disconnect?: Prisma.ProfileWhereUniqueInput | Prisma.ProfileWhereUniqueInput[]
-  delete?: Prisma.ProfileWhereUniqueInput | Prisma.ProfileWhereUniqueInput[]
-  connect?: Prisma.ProfileWhereUniqueInput | Prisma.ProfileWhereUniqueInput[]
-  update?: Prisma.ProfileUpdateWithWhereUniqueWithoutUserInput | Prisma.ProfileUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.ProfileUpdateManyWithWhereWithoutUserInput | Prisma.ProfileUpdateManyWithWhereWithoutUserInput[]
-  deleteMany?: Prisma.ProfileScalarWhereInput | Prisma.ProfileScalarWhereInput[]
+export type ProfileUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.ProfileCreateWithoutUserInput, Prisma.ProfileUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.ProfileCreateOrConnectWithoutUserInput
+  upsert?: Prisma.ProfileUpsertWithoutUserInput
+  disconnect?: Prisma.ProfileWhereInput | boolean
+  delete?: Prisma.ProfileWhereInput | boolean
+  connect?: Prisma.ProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProfileUpdateToOneWithWhereWithoutUserInput, Prisma.ProfileUpdateWithoutUserInput>, Prisma.ProfileUncheckedUpdateWithoutUserInput>
 }
 
-export type ProfileUncheckedUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.ProfileCreateWithoutUserInput, Prisma.ProfileUncheckedCreateWithoutUserInput> | Prisma.ProfileCreateWithoutUserInput[] | Prisma.ProfileUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.ProfileCreateOrConnectWithoutUserInput | Prisma.ProfileCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.ProfileUpsertWithWhereUniqueWithoutUserInput | Prisma.ProfileUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.ProfileCreateManyUserInputEnvelope
-  set?: Prisma.ProfileWhereUniqueInput | Prisma.ProfileWhereUniqueInput[]
-  disconnect?: Prisma.ProfileWhereUniqueInput | Prisma.ProfileWhereUniqueInput[]
-  delete?: Prisma.ProfileWhereUniqueInput | Prisma.ProfileWhereUniqueInput[]
-  connect?: Prisma.ProfileWhereUniqueInput | Prisma.ProfileWhereUniqueInput[]
-  update?: Prisma.ProfileUpdateWithWhereUniqueWithoutUserInput | Prisma.ProfileUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.ProfileUpdateManyWithWhereWithoutUserInput | Prisma.ProfileUpdateManyWithWhereWithoutUserInput[]
-  deleteMany?: Prisma.ProfileScalarWhereInput | Prisma.ProfileScalarWhereInput[]
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
+export type ProfileUncheckedUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.ProfileCreateWithoutUserInput, Prisma.ProfileUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.ProfileCreateOrConnectWithoutUserInput
+  upsert?: Prisma.ProfileUpsertWithoutUserInput
+  disconnect?: Prisma.ProfileWhereInput | boolean
+  delete?: Prisma.ProfileWhereInput | boolean
+  connect?: Prisma.ProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProfileUpdateToOneWithWhereWithoutUserInput, Prisma.ProfileUpdateWithoutUserInput>, Prisma.ProfileUncheckedUpdateWithoutUserInput>
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -500,22 +437,18 @@ export type IntFieldUpdateOperationsInput = {
 export type ProfileCreateWithoutUserInput = {
   id?: string
   firstName: string
-  lastName?: string | null
+  lastName: string
   credits?: number
   skills?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resumeUrl?: string | null
-  resumeText?: string | null
   updatedAt?: Date | string
 }
 
 export type ProfileUncheckedCreateWithoutUserInput = {
   id?: string
   firstName: string
-  lastName?: string | null
+  lastName: string
   credits?: number
   skills?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resumeUrl?: string | null
-  resumeText?: string | null
   updatedAt?: Date | string
 }
 
@@ -524,83 +457,32 @@ export type ProfileCreateOrConnectWithoutUserInput = {
   create: Prisma.XOR<Prisma.ProfileCreateWithoutUserInput, Prisma.ProfileUncheckedCreateWithoutUserInput>
 }
 
-export type ProfileCreateManyUserInputEnvelope = {
-  data: Prisma.ProfileCreateManyUserInput | Prisma.ProfileCreateManyUserInput[]
-  skipDuplicates?: boolean
-}
-
-export type ProfileUpsertWithWhereUniqueWithoutUserInput = {
-  where: Prisma.ProfileWhereUniqueInput
+export type ProfileUpsertWithoutUserInput = {
   update: Prisma.XOR<Prisma.ProfileUpdateWithoutUserInput, Prisma.ProfileUncheckedUpdateWithoutUserInput>
   create: Prisma.XOR<Prisma.ProfileCreateWithoutUserInput, Prisma.ProfileUncheckedCreateWithoutUserInput>
+  where?: Prisma.ProfileWhereInput
 }
 
-export type ProfileUpdateWithWhereUniqueWithoutUserInput = {
-  where: Prisma.ProfileWhereUniqueInput
+export type ProfileUpdateToOneWithWhereWithoutUserInput = {
+  where?: Prisma.ProfileWhereInput
   data: Prisma.XOR<Prisma.ProfileUpdateWithoutUserInput, Prisma.ProfileUncheckedUpdateWithoutUserInput>
-}
-
-export type ProfileUpdateManyWithWhereWithoutUserInput = {
-  where: Prisma.ProfileScalarWhereInput
-  data: Prisma.XOR<Prisma.ProfileUpdateManyMutationInput, Prisma.ProfileUncheckedUpdateManyWithoutUserInput>
-}
-
-export type ProfileScalarWhereInput = {
-  AND?: Prisma.ProfileScalarWhereInput | Prisma.ProfileScalarWhereInput[]
-  OR?: Prisma.ProfileScalarWhereInput[]
-  NOT?: Prisma.ProfileScalarWhereInput | Prisma.ProfileScalarWhereInput[]
-  id?: Prisma.StringFilter<"Profile"> | string
-  userId?: Prisma.StringFilter<"Profile"> | string
-  firstName?: Prisma.StringFilter<"Profile"> | string
-  lastName?: Prisma.StringNullableFilter<"Profile"> | string | null
-  credits?: Prisma.IntFilter<"Profile"> | number
-  skills?: Prisma.JsonNullableFilter<"Profile">
-  resumeUrl?: Prisma.StringNullableFilter<"Profile"> | string | null
-  resumeText?: Prisma.StringNullableFilter<"Profile"> | string | null
-  updatedAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
-}
-
-export type ProfileCreateManyUserInput = {
-  id?: string
-  firstName: string
-  lastName?: string | null
-  credits?: number
-  skills?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resumeUrl?: string | null
-  resumeText?: string | null
-  updatedAt?: Date | string
 }
 
 export type ProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
   credits?: Prisma.IntFieldUpdateOperationsInput | number
   skills?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
   credits?: Prisma.IntFieldUpdateOperationsInput | number
   skills?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type ProfileUncheckedUpdateManyWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  firstName?: Prisma.StringFieldUpdateOperationsInput | string
-  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  credits?: Prisma.IntFieldUpdateOperationsInput | number
-  skills?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -613,8 +495,6 @@ export type ProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   lastName?: boolean
   credits?: boolean
   skills?: boolean
-  resumeUrl?: boolean
-  resumeText?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["profile"]>
@@ -626,8 +506,6 @@ export type ProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   lastName?: boolean
   credits?: boolean
   skills?: boolean
-  resumeUrl?: boolean
-  resumeText?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["profile"]>
@@ -639,8 +517,6 @@ export type ProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   lastName?: boolean
   credits?: boolean
   skills?: boolean
-  resumeUrl?: boolean
-  resumeText?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["profile"]>
@@ -652,12 +528,10 @@ export type ProfileSelectScalar = {
   lastName?: boolean
   credits?: boolean
   skills?: boolean
-  resumeUrl?: boolean
-  resumeText?: boolean
   updatedAt?: boolean
 }
 
-export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "firstName" | "lastName" | "credits" | "skills" | "resumeUrl" | "resumeText" | "updatedAt", ExtArgs["result"]["profile"]>
+export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "firstName" | "lastName" | "credits" | "skills" | "updatedAt", ExtArgs["result"]["profile"]>
 export type ProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -677,11 +551,9 @@ export type $ProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: string
     userId: string
     firstName: string
-    lastName: string | null
+    lastName: string
     credits: number
     skills: runtime.JsonValue | null
-    resumeUrl: string | null
-    resumeText: string | null
     updatedAt: Date
   }, ExtArgs["result"]["profile"]>
   composites: {}
@@ -1113,8 +985,6 @@ export interface ProfileFieldRefs {
   readonly lastName: Prisma.FieldRef<"Profile", 'String'>
   readonly credits: Prisma.FieldRef<"Profile", 'Int'>
   readonly skills: Prisma.FieldRef<"Profile", 'Json'>
-  readonly resumeUrl: Prisma.FieldRef<"Profile", 'String'>
-  readonly resumeText: Prisma.FieldRef<"Profile", 'String'>
   readonly updatedAt: Prisma.FieldRef<"Profile", 'DateTime'>
 }
     

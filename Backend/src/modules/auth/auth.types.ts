@@ -1,8 +1,12 @@
-import {z} from 'zod'
+import { z } from 'zod'
 
 export const registerUserSchema = z.object({
     email: z.string().email('Please Provide a valid email address'),
-    password: z.string().min(8, 'Password must be atleast 8 characters')
+    password: z.string().min(8, 'Password must contain atleast 8 characters')
+})
+
+export const resetPasswordSchema = z.object({
+    password: z.string().min(8, 'Password must contain atleast 8 characters')
 })
 
 export const loginUserSchema = registerUserSchema

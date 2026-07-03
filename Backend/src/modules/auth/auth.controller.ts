@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { registerUserSchema, loginUserSchema } from "./auth.types"
+import { registerUserSchema, loginUserSchema, resetPasswordSchema } from "./auth.types"
 import * as authService from './auth.service'
 
 export const registerUser = async (req: Request, res: Response) => {
@@ -18,6 +18,34 @@ export const registerUser = async (req: Request, res: Response) => {
             message: 'User registered successfully',
             data: result.user
         })
+}
+
+export const verifyEmail = async (req: Request, res: Response) => {
+    const { otp } = req.body
+    const userId = req.userId as string
+    const result = await authService.verifyEmail(otp, userId)
+    res
+        .cookie('token', result.token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production' ? true : false,
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        })
+        .status(200)
+        .json({
+            success: true,
+            message: 'Email verified successfully',
+            data: result.user
+        })
+}
+
+export const sendOTP = async (req: Request, res: Response) => {
+    const userId = req.userId as string
+    const message = await authService.generateOTP(userId)
+    res.status(200).json({
+        success: true,
+        message
+    })
 }
 
 export const loginUser = async (req: Request, res: Response) => {
@@ -39,7 +67,19 @@ export const loginUser = async (req: Request, res: Response) => {
 }
 
 export const logutUser = (req: Request, res: Response) => {
-    res.clearCookie('token').json({
-        message: 'Logged Out'
+    res.clearCookie('token').status(200).json({
+        success: true,
+        message: 'User logged out successfully'
+    })
+}
+
+export const resetPassword = async (req: Request, res: Response) => {
+    const { password } = resetPasswordSchema.parse(req.body)
+    const userId = req.userId as string
+    const result = await authService.resetPassword(userId, password)
+    res.status(201).json({
+        success: true,
+        message: 'Password updated successfully',
+        data: result
     })
 }

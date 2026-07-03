@@ -1,20 +1,17 @@
 import { prisma } from '../../lib/prisma'
-import { InterviewContext } from './interview.types'
+import { CreateInterviewContext } from './interview.types'
 import { AppError } from '../../utils/appError'
-import { SessionEnd } from './interview.session'
 import { Prisma } from '../../generated/prisma/client'
 
-export const createInterview = async (context: InterviewContext, userId: string) => {
+export const createInterview = async (context: CreateInterviewContext, userId: string) => {
     const interview = await prisma.interview.create({
         data: {
             userId,
-            type: context.type,
             role: context.role,
             title: context.title,
             experience: context.experience,
             skills: context.skills,
-            jobDescription: context?.jobDescription,
-            duration: context.duration
+            jobDescription: context?.jobDescription
         },
         select: {
             id: true
@@ -30,37 +27,55 @@ export const fetchInterview = async (interviewId: string) => {
             userId: true,
             title: true,
             role: true,
-            type: true,
             skills: true,
             experience: true,
             jobDescription: true,
-            duration: true
         }
     })
-    if (!interview) {
-        throw new AppError(404, 'Interview Not Found')
-    }
     return interview
 }
 
-export const createSession = async (sessionEnd: SessionEnd) => {
-    const session = await prisma.session.create({
-        data: {
-            id: sessionEnd.sessionId,
-            interviewId: sessionEnd.interviewId,
-            startedAt: sessionEnd.startedAt,
-            endedAt: sessionEnd.endedAt,
-            duration: sessionEnd.duration,
-            transcript: sessionEnd.history as unknown as Prisma.InputJsonValue
+export const fetchAllInterviews = async (userId: string) => {
+    return await prisma.interview.findMany({
+        where: { userId },
+        orderBy: { createdAt: 'desc' },
+        select: {
+            id: true,
+            title: true,
+            role: true,
+            skills: true,
+            sessions: {
+                select: {
+                    type: true,
+                    feedback: { select: { overallScore: true } }
+                }
+            }
         }
     })
 }
 
-//   id             String     @id @default(uuid())
-//   userId         String
-//   title          String
-//   type           String
-//   role           String
-//   skills         String
-//   jobDescription String?
-//   duration       Int
+export const fetchInterviewSessions = async (interviewId: string) => {
+    return await prisma.interview.findUnique({
+        where: { id: interviewId },
+        select: {
+            userId: true,
+            title: true,
+            jobDescription: true,
+            role: true,
+            skills: true,
+            experience: true,
+            sessions: {
+                orderBy: { startedAt: 'desc' },
+                select: {
+                    id: true,
+                    type: true,
+                    duration: true,
+                    startedAt: true,
+                    feedback: { select: { overallScore: true, verdict: true, strengths: true } }
+                }
+            }
+        }
+    })
+}
+
+

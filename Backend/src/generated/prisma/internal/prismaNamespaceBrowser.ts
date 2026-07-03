@@ -53,6 +53,7 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Profile: 'Profile',
+  Resume: 'Resume',
   Interview: 'Interview',
   Session: 'Session',
   Feedback: 'Feedback'
@@ -78,8 +79,10 @@ export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   hashedPassword: 'hashedPassword',
-  onboardingCompleted: 'onboardingCompleted',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  onboarding_step1: 'onboarding_step1',
+  onboarding_step2: 'onboarding_step2',
+  isEmailVerified: 'isEmailVerified'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -92,24 +95,33 @@ export const ProfileScalarFieldEnum = {
   lastName: 'lastName',
   credits: 'credits',
   skills: 'skills',
-  resumeUrl: 'resumeUrl',
-  resumeText: 'resumeText',
   updatedAt: 'updatedAt'
 } as const
 
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
 
 
+export const ResumeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  resumeUrl: 'resumeUrl',
+  resumeText: 'resumeText',
+  resumeKey: 'resumeKey',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ResumeScalarFieldEnum = (typeof ResumeScalarFieldEnum)[keyof typeof ResumeScalarFieldEnum]
+
+
 export const InterviewScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   title: 'title',
-  type: 'type',
-  role: 'role',
-  skills: 'skills',
   jobDescription: 'jobDescription',
+  role: 'role',
   experience: 'experience',
-  duration: 'duration'
+  skills: 'skills',
+  createdAt: 'createdAt'
 } as const
 
 export type InterviewScalarFieldEnum = (typeof InterviewScalarFieldEnum)[keyof typeof InterviewScalarFieldEnum]
@@ -121,7 +133,8 @@ export const SessionScalarFieldEnum = {
   startedAt: 'startedAt',
   endedAt: 'endedAt',
   duration: 'duration',
-  transcript: 'transcript'
+  transcript: 'transcript',
+  type: 'type'
 } as const
 
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
@@ -129,9 +142,13 @@ export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeo
 
 export const FeedbackScalarFieldEnum = {
   id: 'id',
-  interviewId: 'interviewId',
-  score: 'score',
-  feedbackData: 'feedbackData'
+  overallScore: 'overallScore',
+  sessionId: 'sessionId',
+  summary: 'summary',
+  focusAreas: 'focusAreas',
+  nextStep: 'nextStep',
+  strengths: 'strengths',
+  verdict: 'verdict'
 } as const
 
 export type FeedbackScalarFieldEnum = (typeof FeedbackScalarFieldEnum)[keyof typeof FeedbackScalarFieldEnum]

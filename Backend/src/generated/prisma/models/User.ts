@@ -28,24 +28,30 @@ export type UserMinAggregateOutputType = {
   id: string | null
   email: string | null
   hashedPassword: string | null
-  onboardingCompleted: boolean | null
   createdAt: Date | null
+  onboarding_step1: boolean | null
+  onboarding_step2: boolean | null
+  isEmailVerified: boolean | null
 }
 
 export type UserMaxAggregateOutputType = {
   id: string | null
   email: string | null
   hashedPassword: string | null
-  onboardingCompleted: boolean | null
   createdAt: Date | null
+  onboarding_step1: boolean | null
+  onboarding_step2: boolean | null
+  isEmailVerified: boolean | null
 }
 
 export type UserCountAggregateOutputType = {
   id: number
   email: number
   hashedPassword: number
-  onboardingCompleted: number
   createdAt: number
+  onboarding_step1: number
+  onboarding_step2: number
+  isEmailVerified: number
   _all: number
 }
 
@@ -54,24 +60,30 @@ export type UserMinAggregateInputType = {
   id?: true
   email?: true
   hashedPassword?: true
-  onboardingCompleted?: true
   createdAt?: true
+  onboarding_step1?: true
+  onboarding_step2?: true
+  isEmailVerified?: true
 }
 
 export type UserMaxAggregateInputType = {
   id?: true
   email?: true
   hashedPassword?: true
-  onboardingCompleted?: true
   createdAt?: true
+  onboarding_step1?: true
+  onboarding_step2?: true
+  isEmailVerified?: true
 }
 
 export type UserCountAggregateInputType = {
   id?: true
   email?: true
   hashedPassword?: true
-  onboardingCompleted?: true
   createdAt?: true
+  onboarding_step1?: true
+  onboarding_step2?: true
+  isEmailVerified?: true
   _all?: true
 }
 
@@ -151,8 +163,10 @@ export type UserGroupByOutputType = {
   id: string
   email: string
   hashedPassword: string
-  onboardingCompleted: boolean
   createdAt: Date
+  onboarding_step1: boolean
+  onboarding_step2: boolean
+  isEmailVerified: boolean
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
@@ -180,20 +194,26 @@ export type UserWhereInput = {
   id?: Prisma.StringFilter<"User"> | string
   email?: Prisma.StringFilter<"User"> | string
   hashedPassword?: Prisma.StringFilter<"User"> | string
-  onboardingCompleted?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  profiles?: Prisma.ProfileListRelationFilter
+  onboarding_step1?: Prisma.BoolFilter<"User"> | boolean
+  onboarding_step2?: Prisma.BoolFilter<"User"> | boolean
+  isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
   interviews?: Prisma.InterviewListRelationFilter
+  profiles?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
+  resume?: Prisma.XOR<Prisma.ResumeNullableScalarRelationFilter, Prisma.ResumeWhereInput> | null
 }
 
 export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   hashedPassword?: Prisma.SortOrder
-  onboardingCompleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  profiles?: Prisma.ProfileOrderByRelationAggregateInput
+  onboarding_step1?: Prisma.SortOrder
+  onboarding_step2?: Prisma.SortOrder
+  isEmailVerified?: Prisma.SortOrder
   interviews?: Prisma.InterviewOrderByRelationAggregateInput
+  profiles?: Prisma.ProfileOrderByWithRelationInput
+  resume?: Prisma.ResumeOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -203,18 +223,23 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   hashedPassword?: Prisma.StringFilter<"User"> | string
-  onboardingCompleted?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  profiles?: Prisma.ProfileListRelationFilter
+  onboarding_step1?: Prisma.BoolFilter<"User"> | boolean
+  onboarding_step2?: Prisma.BoolFilter<"User"> | boolean
+  isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
   interviews?: Prisma.InterviewListRelationFilter
+  profiles?: Prisma.XOR<Prisma.ProfileNullableScalarRelationFilter, Prisma.ProfileWhereInput> | null
+  resume?: Prisma.XOR<Prisma.ResumeNullableScalarRelationFilter, Prisma.ResumeWhereInput> | null
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   hashedPassword?: Prisma.SortOrder
-  onboardingCompleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  onboarding_step1?: Prisma.SortOrder
+  onboarding_step2?: Prisma.SortOrder
+  isEmailVerified?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
@@ -227,96 +252,122 @@ export type UserScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"User"> | string
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   hashedPassword?: Prisma.StringWithAggregatesFilter<"User"> | string
-  onboardingCompleted?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  onboarding_step1?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  onboarding_step2?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  isEmailVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
 }
 
 export type UserCreateInput = {
   id?: string
   email: string
   hashedPassword: string
-  onboardingCompleted?: boolean
   createdAt?: Date | string
-  profiles?: Prisma.ProfileCreateNestedManyWithoutUserInput
+  onboarding_step1?: boolean
+  onboarding_step2?: boolean
+  isEmailVerified?: boolean
   interviews?: Prisma.InterviewCreateNestedManyWithoutUserInput
+  profiles?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  resume?: Prisma.ResumeCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
   id?: string
   email: string
   hashedPassword: string
-  onboardingCompleted?: boolean
   createdAt?: Date | string
-  profiles?: Prisma.ProfileUncheckedCreateNestedManyWithoutUserInput
+  onboarding_step1?: boolean
+  onboarding_step2?: boolean
+  isEmailVerified?: boolean
   interviews?: Prisma.InterviewUncheckedCreateNestedManyWithoutUserInput
+  profiles?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  resume?: Prisma.ResumeUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
-  onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profiles?: Prisma.ProfileUpdateManyWithoutUserNestedInput
+  onboarding_step1?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboarding_step2?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   interviews?: Prisma.InterviewUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  resume?: Prisma.ResumeUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
-  onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profiles?: Prisma.ProfileUncheckedUpdateManyWithoutUserNestedInput
+  onboarding_step1?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboarding_step2?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   interviews?: Prisma.InterviewUncheckedUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  resume?: Prisma.ResumeUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
   id?: string
   email: string
   hashedPassword: string
-  onboardingCompleted?: boolean
   createdAt?: Date | string
+  onboarding_step1?: boolean
+  onboarding_step2?: boolean
+  isEmailVerified?: boolean
 }
 
 export type UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
-  onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboarding_step1?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboarding_step2?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UserUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
-  onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboarding_step1?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboarding_step2?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   hashedPassword?: Prisma.SortOrder
-  onboardingCompleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  onboarding_step1?: Prisma.SortOrder
+  onboarding_step2?: Prisma.SortOrder
+  isEmailVerified?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   hashedPassword?: Prisma.SortOrder
-  onboardingCompleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  onboarding_step1?: Prisma.SortOrder
+  onboarding_step2?: Prisma.SortOrder
+  isEmailVerified?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   hashedPassword?: Prisma.SortOrder
-  onboardingCompleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  onboarding_step1?: Prisma.SortOrder
+  onboarding_step2?: Prisma.SortOrder
+  isEmailVerified?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -328,12 +379,12 @@ export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type UserCreateNestedOneWithoutProfilesInput = {
@@ -348,6 +399,20 @@ export type UserUpdateOneRequiredWithoutProfilesNestedInput = {
   upsert?: Prisma.UserUpsertWithoutProfilesInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutProfilesInput, Prisma.UserUpdateWithoutProfilesInput>, Prisma.UserUncheckedUpdateWithoutProfilesInput>
+}
+
+export type UserCreateNestedOneWithoutResumeInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutResumeInput, Prisma.UserUncheckedCreateWithoutResumeInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutResumeInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutResumeNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutResumeInput, Prisma.UserUncheckedCreateWithoutResumeInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutResumeInput
+  upsert?: Prisma.UserUpsertWithoutResumeInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutResumeInput, Prisma.UserUpdateWithoutResumeInput>, Prisma.UserUncheckedUpdateWithoutResumeInput>
 }
 
 export type UserCreateNestedOneWithoutInterviewsInput = {
@@ -368,18 +433,24 @@ export type UserCreateWithoutProfilesInput = {
   id?: string
   email: string
   hashedPassword: string
-  onboardingCompleted?: boolean
   createdAt?: Date | string
+  onboarding_step1?: boolean
+  onboarding_step2?: boolean
+  isEmailVerified?: boolean
   interviews?: Prisma.InterviewCreateNestedManyWithoutUserInput
+  resume?: Prisma.ResumeCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProfilesInput = {
   id?: string
   email: string
   hashedPassword: string
-  onboardingCompleted?: boolean
   createdAt?: Date | string
+  onboarding_step1?: boolean
+  onboarding_step2?: boolean
+  isEmailVerified?: boolean
   interviews?: Prisma.InterviewUncheckedCreateNestedManyWithoutUserInput
+  resume?: Prisma.ResumeUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProfilesInput = {
@@ -402,36 +473,112 @@ export type UserUpdateWithoutProfilesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
-  onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboarding_step1?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboarding_step2?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   interviews?: Prisma.InterviewUpdateManyWithoutUserNestedInput
+  resume?: Prisma.ResumeUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProfilesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
-  onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboarding_step1?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboarding_step2?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   interviews?: Prisma.InterviewUncheckedUpdateManyWithoutUserNestedInput
+  resume?: Prisma.ResumeUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutResumeInput = {
+  id?: string
+  email: string
+  hashedPassword: string
+  createdAt?: Date | string
+  onboarding_step1?: boolean
+  onboarding_step2?: boolean
+  isEmailVerified?: boolean
+  interviews?: Prisma.InterviewCreateNestedManyWithoutUserInput
+  profiles?: Prisma.ProfileCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutResumeInput = {
+  id?: string
+  email: string
+  hashedPassword: string
+  createdAt?: Date | string
+  onboarding_step1?: boolean
+  onboarding_step2?: boolean
+  isEmailVerified?: boolean
+  interviews?: Prisma.InterviewUncheckedCreateNestedManyWithoutUserInput
+  profiles?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutResumeInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutResumeInput, Prisma.UserUncheckedCreateWithoutResumeInput>
+}
+
+export type UserUpsertWithoutResumeInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutResumeInput, Prisma.UserUncheckedUpdateWithoutResumeInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutResumeInput, Prisma.UserUncheckedCreateWithoutResumeInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutResumeInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutResumeInput, Prisma.UserUncheckedUpdateWithoutResumeInput>
+}
+
+export type UserUpdateWithoutResumeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboarding_step1?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboarding_step2?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  interviews?: Prisma.InterviewUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutResumeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  onboarding_step1?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboarding_step2?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  interviews?: Prisma.InterviewUncheckedUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutInterviewsInput = {
   id?: string
   email: string
   hashedPassword: string
-  onboardingCompleted?: boolean
   createdAt?: Date | string
-  profiles?: Prisma.ProfileCreateNestedManyWithoutUserInput
+  onboarding_step1?: boolean
+  onboarding_step2?: boolean
+  isEmailVerified?: boolean
+  profiles?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  resume?: Prisma.ResumeCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutInterviewsInput = {
   id?: string
   email: string
   hashedPassword: string
-  onboardingCompleted?: boolean
   createdAt?: Date | string
-  profiles?: Prisma.ProfileUncheckedCreateNestedManyWithoutUserInput
+  onboarding_step1?: boolean
+  onboarding_step2?: boolean
+  isEmailVerified?: boolean
+  profiles?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  resume?: Prisma.ResumeUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutInterviewsInput = {
@@ -454,18 +601,24 @@ export type UserUpdateWithoutInterviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
-  onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profiles?: Prisma.ProfileUpdateManyWithoutUserNestedInput
+  onboarding_step1?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboarding_step2?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  profiles?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  resume?: Prisma.ResumeUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutInterviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   hashedPassword?: Prisma.StringFieldUpdateOperationsInput | string
-  onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profiles?: Prisma.ProfileUncheckedUpdateManyWithoutUserNestedInput
+  onboarding_step1?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboarding_step2?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  profiles?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  resume?: Prisma.ResumeUncheckedUpdateOneWithoutUserNestedInput
 }
 
 
@@ -474,12 +627,10 @@ export type UserUncheckedUpdateWithoutInterviewsInput = {
  */
 
 export type UserCountOutputType = {
-  profiles: number
   interviews: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  profiles?: boolean | UserCountOutputTypeCountProfilesArgs
   interviews?: boolean | UserCountOutputTypeCountInterviewsArgs
 }
 
@@ -496,13 +647,6 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountProfilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ProfileWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
 export type UserCountOutputTypeCountInterviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.InterviewWhereInput
 }
@@ -512,10 +656,13 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   email?: boolean
   hashedPassword?: boolean
-  onboardingCompleted?: boolean
   createdAt?: boolean
-  profiles?: boolean | Prisma.User$profilesArgs<ExtArgs>
+  onboarding_step1?: boolean
+  onboarding_step2?: boolean
+  isEmailVerified?: boolean
   interviews?: boolean | Prisma.User$interviewsArgs<ExtArgs>
+  profiles?: boolean | Prisma.User$profilesArgs<ExtArgs>
+  resume?: boolean | Prisma.User$resumeArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -523,30 +670,37 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   email?: boolean
   hashedPassword?: boolean
-  onboardingCompleted?: boolean
   createdAt?: boolean
+  onboarding_step1?: boolean
+  onboarding_step2?: boolean
+  isEmailVerified?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   email?: boolean
   hashedPassword?: boolean
-  onboardingCompleted?: boolean
   createdAt?: boolean
+  onboarding_step1?: boolean
+  onboarding_step2?: boolean
+  isEmailVerified?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
   id?: boolean
   email?: boolean
   hashedPassword?: boolean
-  onboardingCompleted?: boolean
   createdAt?: boolean
+  onboarding_step1?: boolean
+  onboarding_step2?: boolean
+  isEmailVerified?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "hashedPassword" | "onboardingCompleted" | "createdAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "hashedPassword" | "createdAt" | "onboarding_step1" | "onboarding_step2" | "isEmailVerified", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  profiles?: boolean | Prisma.User$profilesArgs<ExtArgs>
   interviews?: boolean | Prisma.User$interviewsArgs<ExtArgs>
+  profiles?: boolean | Prisma.User$profilesArgs<ExtArgs>
+  resume?: boolean | Prisma.User$resumeArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -555,15 +709,18 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    profiles: Prisma.$ProfilePayload<ExtArgs>[]
     interviews: Prisma.$InterviewPayload<ExtArgs>[]
+    profiles: Prisma.$ProfilePayload<ExtArgs> | null
+    resume: Prisma.$ResumePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     email: string
     hashedPassword: string
-    onboardingCompleted: boolean
     createdAt: Date
+    onboarding_step1: boolean
+    onboarding_step2: boolean
+    isEmailVerified: boolean
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -958,8 +1115,9 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  profiles<T extends Prisma.User$profilesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$profilesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   interviews<T extends Prisma.User$interviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$interviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InterviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  profiles<T extends Prisma.User$profilesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$profilesArgs<ExtArgs>>): Prisma.Prisma__ProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  resume<T extends Prisma.User$resumeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$resumeArgs<ExtArgs>>): Prisma.Prisma__ResumeClient<runtime.Types.Result.GetResult<Prisma.$ResumePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -992,8 +1150,10 @@ export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<"User", 'String'>
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly hashedPassword: Prisma.FieldRef<"User", 'String'>
-  readonly onboardingCompleted: Prisma.FieldRef<"User", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly onboarding_step1: Prisma.FieldRef<"User", 'Boolean'>
+  readonly onboarding_step2: Prisma.FieldRef<"User", 'Boolean'>
+  readonly isEmailVerified: Prisma.FieldRef<"User", 'Boolean'>
 }
     
 
@@ -1387,30 +1547,6 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.profiles
- */
-export type User$profilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Profile
-   */
-  select?: Prisma.ProfileSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Profile
-   */
-  omit?: Prisma.ProfileOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ProfileInclude<ExtArgs> | null
-  where?: Prisma.ProfileWhereInput
-  orderBy?: Prisma.ProfileOrderByWithRelationInput | Prisma.ProfileOrderByWithRelationInput[]
-  cursor?: Prisma.ProfileWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ProfileScalarFieldEnum | Prisma.ProfileScalarFieldEnum[]
-}
-
-/**
  * User.interviews
  */
 export type User$interviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1432,6 +1568,44 @@ export type User$interviewsArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.InterviewScalarFieldEnum | Prisma.InterviewScalarFieldEnum[]
+}
+
+/**
+ * User.profiles
+ */
+export type User$profilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Profile
+   */
+  select?: Prisma.ProfileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Profile
+   */
+  omit?: Prisma.ProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProfileInclude<ExtArgs> | null
+  where?: Prisma.ProfileWhereInput
+}
+
+/**
+ * User.resume
+ */
+export type User$resumeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Resume
+   */
+  select?: Prisma.ResumeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Resume
+   */
+  omit?: Prisma.ResumeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ResumeInclude<ExtArgs> | null
+  where?: Prisma.ResumeWhereInput
 }
 
 /**

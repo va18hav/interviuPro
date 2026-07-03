@@ -27,63 +27,75 @@ export type AggregateFeedback = {
 }
 
 export type FeedbackAvgAggregateOutputType = {
-  score: number | null
+  overallScore: number | null
 }
 
 export type FeedbackSumAggregateOutputType = {
-  score: number | null
+  overallScore: number | null
 }
 
 export type FeedbackMinAggregateOutputType = {
   id: string | null
-  interviewId: string | null
-  score: number | null
-  feedbackData: string | null
+  overallScore: number | null
+  sessionId: string | null
+  summary: string | null
+  verdict: string | null
 }
 
 export type FeedbackMaxAggregateOutputType = {
   id: string | null
-  interviewId: string | null
-  score: number | null
-  feedbackData: string | null
+  overallScore: number | null
+  sessionId: string | null
+  summary: string | null
+  verdict: string | null
 }
 
 export type FeedbackCountAggregateOutputType = {
   id: number
-  interviewId: number
-  score: number
-  feedbackData: number
+  overallScore: number
+  sessionId: number
+  summary: number
+  focusAreas: number
+  nextStep: number
+  strengths: number
+  verdict: number
   _all: number
 }
 
 
 export type FeedbackAvgAggregateInputType = {
-  score?: true
+  overallScore?: true
 }
 
 export type FeedbackSumAggregateInputType = {
-  score?: true
+  overallScore?: true
 }
 
 export type FeedbackMinAggregateInputType = {
   id?: true
-  interviewId?: true
-  score?: true
-  feedbackData?: true
+  overallScore?: true
+  sessionId?: true
+  summary?: true
+  verdict?: true
 }
 
 export type FeedbackMaxAggregateInputType = {
   id?: true
-  interviewId?: true
-  score?: true
-  feedbackData?: true
+  overallScore?: true
+  sessionId?: true
+  summary?: true
+  verdict?: true
 }
 
 export type FeedbackCountAggregateInputType = {
   id?: true
-  interviewId?: true
-  score?: true
-  feedbackData?: true
+  overallScore?: true
+  sessionId?: true
+  summary?: true
+  focusAreas?: true
+  nextStep?: true
+  strengths?: true
+  verdict?: true
   _all?: true
 }
 
@@ -175,9 +187,13 @@ export type FeedbackGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 
 export type FeedbackGroupByOutputType = {
   id: string
-  interviewId: string
-  score: number
-  feedbackData: string
+  overallScore: number
+  sessionId: string
+  summary: string
+  focusAreas: runtime.JsonValue
+  nextStep: runtime.JsonValue
+  strengths: runtime.JsonValue
+  verdict: string
   _count: FeedbackCountAggregateOutputType | null
   _avg: FeedbackAvgAggregateOutputType | null
   _sum: FeedbackSumAggregateOutputType | null
@@ -205,36 +221,52 @@ export type FeedbackWhereInput = {
   OR?: Prisma.FeedbackWhereInput[]
   NOT?: Prisma.FeedbackWhereInput | Prisma.FeedbackWhereInput[]
   id?: Prisma.StringFilter<"Feedback"> | string
-  interviewId?: Prisma.StringFilter<"Feedback"> | string
-  score?: Prisma.IntFilter<"Feedback"> | number
-  feedbackData?: Prisma.StringFilter<"Feedback"> | string
-  interview?: Prisma.XOR<Prisma.InterviewScalarRelationFilter, Prisma.InterviewWhereInput>
+  overallScore?: Prisma.IntFilter<"Feedback"> | number
+  sessionId?: Prisma.StringFilter<"Feedback"> | string
+  summary?: Prisma.StringFilter<"Feedback"> | string
+  focusAreas?: Prisma.JsonFilter<"Feedback">
+  nextStep?: Prisma.JsonFilter<"Feedback">
+  strengths?: Prisma.JsonFilter<"Feedback">
+  verdict?: Prisma.StringFilter<"Feedback"> | string
+  session?: Prisma.XOR<Prisma.SessionScalarRelationFilter, Prisma.SessionWhereInput>
 }
 
 export type FeedbackOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  interviewId?: Prisma.SortOrder
-  score?: Prisma.SortOrder
-  feedbackData?: Prisma.SortOrder
-  interview?: Prisma.InterviewOrderByWithRelationInput
+  overallScore?: Prisma.SortOrder
+  sessionId?: Prisma.SortOrder
+  summary?: Prisma.SortOrder
+  focusAreas?: Prisma.SortOrder
+  nextStep?: Prisma.SortOrder
+  strengths?: Prisma.SortOrder
+  verdict?: Prisma.SortOrder
+  session?: Prisma.SessionOrderByWithRelationInput
 }
 
 export type FeedbackWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  sessionId?: string
   AND?: Prisma.FeedbackWhereInput | Prisma.FeedbackWhereInput[]
   OR?: Prisma.FeedbackWhereInput[]
   NOT?: Prisma.FeedbackWhereInput | Prisma.FeedbackWhereInput[]
-  interviewId?: Prisma.StringFilter<"Feedback"> | string
-  score?: Prisma.IntFilter<"Feedback"> | number
-  feedbackData?: Prisma.StringFilter<"Feedback"> | string
-  interview?: Prisma.XOR<Prisma.InterviewScalarRelationFilter, Prisma.InterviewWhereInput>
-}, "id">
+  overallScore?: Prisma.IntFilter<"Feedback"> | number
+  summary?: Prisma.StringFilter<"Feedback"> | string
+  focusAreas?: Prisma.JsonFilter<"Feedback">
+  nextStep?: Prisma.JsonFilter<"Feedback">
+  strengths?: Prisma.JsonFilter<"Feedback">
+  verdict?: Prisma.StringFilter<"Feedback"> | string
+  session?: Prisma.XOR<Prisma.SessionScalarRelationFilter, Prisma.SessionWhereInput>
+}, "id" | "sessionId">
 
 export type FeedbackOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  interviewId?: Prisma.SortOrder
-  score?: Prisma.SortOrder
-  feedbackData?: Prisma.SortOrder
+  overallScore?: Prisma.SortOrder
+  sessionId?: Prisma.SortOrder
+  summary?: Prisma.SortOrder
+  focusAreas?: Prisma.SortOrder
+  nextStep?: Prisma.SortOrder
+  strengths?: Prisma.SortOrder
+  verdict?: Prisma.SortOrder
   _count?: Prisma.FeedbackCountOrderByAggregateInput
   _avg?: Prisma.FeedbackAvgOrderByAggregateInput
   _max?: Prisma.FeedbackMaxOrderByAggregateInput
@@ -247,266 +279,293 @@ export type FeedbackScalarWhereWithAggregatesInput = {
   OR?: Prisma.FeedbackScalarWhereWithAggregatesInput[]
   NOT?: Prisma.FeedbackScalarWhereWithAggregatesInput | Prisma.FeedbackScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Feedback"> | string
-  interviewId?: Prisma.StringWithAggregatesFilter<"Feedback"> | string
-  score?: Prisma.IntWithAggregatesFilter<"Feedback"> | number
-  feedbackData?: Prisma.StringWithAggregatesFilter<"Feedback"> | string
+  overallScore?: Prisma.IntWithAggregatesFilter<"Feedback"> | number
+  sessionId?: Prisma.StringWithAggregatesFilter<"Feedback"> | string
+  summary?: Prisma.StringWithAggregatesFilter<"Feedback"> | string
+  focusAreas?: Prisma.JsonWithAggregatesFilter<"Feedback">
+  nextStep?: Prisma.JsonWithAggregatesFilter<"Feedback">
+  strengths?: Prisma.JsonWithAggregatesFilter<"Feedback">
+  verdict?: Prisma.StringWithAggregatesFilter<"Feedback"> | string
 }
 
 export type FeedbackCreateInput = {
   id?: string
-  score: number
-  feedbackData: string
-  interview: Prisma.InterviewCreateNestedOneWithoutFeedbacksInput
+  overallScore: number
+  summary: string
+  focusAreas: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  nextStep: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  strengths: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  verdict: string
+  session: Prisma.SessionCreateNestedOneWithoutFeedbackInput
 }
 
 export type FeedbackUncheckedCreateInput = {
   id?: string
-  interviewId: string
-  score: number
-  feedbackData: string
+  overallScore: number
+  sessionId: string
+  summary: string
+  focusAreas: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  nextStep: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  strengths: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  verdict: string
 }
 
 export type FeedbackUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  score?: Prisma.IntFieldUpdateOperationsInput | number
-  feedbackData?: Prisma.StringFieldUpdateOperationsInput | string
-  interview?: Prisma.InterviewUpdateOneRequiredWithoutFeedbacksNestedInput
+  overallScore?: Prisma.IntFieldUpdateOperationsInput | number
+  summary?: Prisma.StringFieldUpdateOperationsInput | string
+  focusAreas?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  nextStep?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  strengths?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  verdict?: Prisma.StringFieldUpdateOperationsInput | string
+  session?: Prisma.SessionUpdateOneRequiredWithoutFeedbackNestedInput
 }
 
 export type FeedbackUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  interviewId?: Prisma.StringFieldUpdateOperationsInput | string
-  score?: Prisma.IntFieldUpdateOperationsInput | number
-  feedbackData?: Prisma.StringFieldUpdateOperationsInput | string
+  overallScore?: Prisma.IntFieldUpdateOperationsInput | number
+  sessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  summary?: Prisma.StringFieldUpdateOperationsInput | string
+  focusAreas?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  nextStep?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  strengths?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  verdict?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type FeedbackCreateManyInput = {
   id?: string
-  interviewId: string
-  score: number
-  feedbackData: string
+  overallScore: number
+  sessionId: string
+  summary: string
+  focusAreas: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  nextStep: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  strengths: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  verdict: string
 }
 
 export type FeedbackUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  score?: Prisma.IntFieldUpdateOperationsInput | number
-  feedbackData?: Prisma.StringFieldUpdateOperationsInput | string
+  overallScore?: Prisma.IntFieldUpdateOperationsInput | number
+  summary?: Prisma.StringFieldUpdateOperationsInput | string
+  focusAreas?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  nextStep?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  strengths?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  verdict?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type FeedbackUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  interviewId?: Prisma.StringFieldUpdateOperationsInput | string
-  score?: Prisma.IntFieldUpdateOperationsInput | number
-  feedbackData?: Prisma.StringFieldUpdateOperationsInput | string
+  overallScore?: Prisma.IntFieldUpdateOperationsInput | number
+  sessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  summary?: Prisma.StringFieldUpdateOperationsInput | string
+  focusAreas?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  nextStep?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  strengths?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  verdict?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type FeedbackListRelationFilter = {
-  every?: Prisma.FeedbackWhereInput
-  some?: Prisma.FeedbackWhereInput
-  none?: Prisma.FeedbackWhereInput
-}
-
-export type FeedbackOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type FeedbackNullableScalarRelationFilter = {
+  is?: Prisma.FeedbackWhereInput | null
+  isNot?: Prisma.FeedbackWhereInput | null
 }
 
 export type FeedbackCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  interviewId?: Prisma.SortOrder
-  score?: Prisma.SortOrder
-  feedbackData?: Prisma.SortOrder
+  overallScore?: Prisma.SortOrder
+  sessionId?: Prisma.SortOrder
+  summary?: Prisma.SortOrder
+  focusAreas?: Prisma.SortOrder
+  nextStep?: Prisma.SortOrder
+  strengths?: Prisma.SortOrder
+  verdict?: Prisma.SortOrder
 }
 
 export type FeedbackAvgOrderByAggregateInput = {
-  score?: Prisma.SortOrder
+  overallScore?: Prisma.SortOrder
 }
 
 export type FeedbackMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  interviewId?: Prisma.SortOrder
-  score?: Prisma.SortOrder
-  feedbackData?: Prisma.SortOrder
+  overallScore?: Prisma.SortOrder
+  sessionId?: Prisma.SortOrder
+  summary?: Prisma.SortOrder
+  verdict?: Prisma.SortOrder
 }
 
 export type FeedbackMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  interviewId?: Prisma.SortOrder
-  score?: Prisma.SortOrder
-  feedbackData?: Prisma.SortOrder
+  overallScore?: Prisma.SortOrder
+  sessionId?: Prisma.SortOrder
+  summary?: Prisma.SortOrder
+  verdict?: Prisma.SortOrder
 }
 
 export type FeedbackSumOrderByAggregateInput = {
-  score?: Prisma.SortOrder
+  overallScore?: Prisma.SortOrder
 }
 
-export type FeedbackCreateNestedManyWithoutInterviewInput = {
-  create?: Prisma.XOR<Prisma.FeedbackCreateWithoutInterviewInput, Prisma.FeedbackUncheckedCreateWithoutInterviewInput> | Prisma.FeedbackCreateWithoutInterviewInput[] | Prisma.FeedbackUncheckedCreateWithoutInterviewInput[]
-  connectOrCreate?: Prisma.FeedbackCreateOrConnectWithoutInterviewInput | Prisma.FeedbackCreateOrConnectWithoutInterviewInput[]
-  createMany?: Prisma.FeedbackCreateManyInterviewInputEnvelope
-  connect?: Prisma.FeedbackWhereUniqueInput | Prisma.FeedbackWhereUniqueInput[]
+export type FeedbackCreateNestedOneWithoutSessionInput = {
+  create?: Prisma.XOR<Prisma.FeedbackCreateWithoutSessionInput, Prisma.FeedbackUncheckedCreateWithoutSessionInput>
+  connectOrCreate?: Prisma.FeedbackCreateOrConnectWithoutSessionInput
+  connect?: Prisma.FeedbackWhereUniqueInput
 }
 
-export type FeedbackUncheckedCreateNestedManyWithoutInterviewInput = {
-  create?: Prisma.XOR<Prisma.FeedbackCreateWithoutInterviewInput, Prisma.FeedbackUncheckedCreateWithoutInterviewInput> | Prisma.FeedbackCreateWithoutInterviewInput[] | Prisma.FeedbackUncheckedCreateWithoutInterviewInput[]
-  connectOrCreate?: Prisma.FeedbackCreateOrConnectWithoutInterviewInput | Prisma.FeedbackCreateOrConnectWithoutInterviewInput[]
-  createMany?: Prisma.FeedbackCreateManyInterviewInputEnvelope
-  connect?: Prisma.FeedbackWhereUniqueInput | Prisma.FeedbackWhereUniqueInput[]
+export type FeedbackUncheckedCreateNestedOneWithoutSessionInput = {
+  create?: Prisma.XOR<Prisma.FeedbackCreateWithoutSessionInput, Prisma.FeedbackUncheckedCreateWithoutSessionInput>
+  connectOrCreate?: Prisma.FeedbackCreateOrConnectWithoutSessionInput
+  connect?: Prisma.FeedbackWhereUniqueInput
 }
 
-export type FeedbackUpdateManyWithoutInterviewNestedInput = {
-  create?: Prisma.XOR<Prisma.FeedbackCreateWithoutInterviewInput, Prisma.FeedbackUncheckedCreateWithoutInterviewInput> | Prisma.FeedbackCreateWithoutInterviewInput[] | Prisma.FeedbackUncheckedCreateWithoutInterviewInput[]
-  connectOrCreate?: Prisma.FeedbackCreateOrConnectWithoutInterviewInput | Prisma.FeedbackCreateOrConnectWithoutInterviewInput[]
-  upsert?: Prisma.FeedbackUpsertWithWhereUniqueWithoutInterviewInput | Prisma.FeedbackUpsertWithWhereUniqueWithoutInterviewInput[]
-  createMany?: Prisma.FeedbackCreateManyInterviewInputEnvelope
-  set?: Prisma.FeedbackWhereUniqueInput | Prisma.FeedbackWhereUniqueInput[]
-  disconnect?: Prisma.FeedbackWhereUniqueInput | Prisma.FeedbackWhereUniqueInput[]
-  delete?: Prisma.FeedbackWhereUniqueInput | Prisma.FeedbackWhereUniqueInput[]
-  connect?: Prisma.FeedbackWhereUniqueInput | Prisma.FeedbackWhereUniqueInput[]
-  update?: Prisma.FeedbackUpdateWithWhereUniqueWithoutInterviewInput | Prisma.FeedbackUpdateWithWhereUniqueWithoutInterviewInput[]
-  updateMany?: Prisma.FeedbackUpdateManyWithWhereWithoutInterviewInput | Prisma.FeedbackUpdateManyWithWhereWithoutInterviewInput[]
-  deleteMany?: Prisma.FeedbackScalarWhereInput | Prisma.FeedbackScalarWhereInput[]
+export type FeedbackUpdateOneWithoutSessionNestedInput = {
+  create?: Prisma.XOR<Prisma.FeedbackCreateWithoutSessionInput, Prisma.FeedbackUncheckedCreateWithoutSessionInput>
+  connectOrCreate?: Prisma.FeedbackCreateOrConnectWithoutSessionInput
+  upsert?: Prisma.FeedbackUpsertWithoutSessionInput
+  disconnect?: Prisma.FeedbackWhereInput | boolean
+  delete?: Prisma.FeedbackWhereInput | boolean
+  connect?: Prisma.FeedbackWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FeedbackUpdateToOneWithWhereWithoutSessionInput, Prisma.FeedbackUpdateWithoutSessionInput>, Prisma.FeedbackUncheckedUpdateWithoutSessionInput>
 }
 
-export type FeedbackUncheckedUpdateManyWithoutInterviewNestedInput = {
-  create?: Prisma.XOR<Prisma.FeedbackCreateWithoutInterviewInput, Prisma.FeedbackUncheckedCreateWithoutInterviewInput> | Prisma.FeedbackCreateWithoutInterviewInput[] | Prisma.FeedbackUncheckedCreateWithoutInterviewInput[]
-  connectOrCreate?: Prisma.FeedbackCreateOrConnectWithoutInterviewInput | Prisma.FeedbackCreateOrConnectWithoutInterviewInput[]
-  upsert?: Prisma.FeedbackUpsertWithWhereUniqueWithoutInterviewInput | Prisma.FeedbackUpsertWithWhereUniqueWithoutInterviewInput[]
-  createMany?: Prisma.FeedbackCreateManyInterviewInputEnvelope
-  set?: Prisma.FeedbackWhereUniqueInput | Prisma.FeedbackWhereUniqueInput[]
-  disconnect?: Prisma.FeedbackWhereUniqueInput | Prisma.FeedbackWhereUniqueInput[]
-  delete?: Prisma.FeedbackWhereUniqueInput | Prisma.FeedbackWhereUniqueInput[]
-  connect?: Prisma.FeedbackWhereUniqueInput | Prisma.FeedbackWhereUniqueInput[]
-  update?: Prisma.FeedbackUpdateWithWhereUniqueWithoutInterviewInput | Prisma.FeedbackUpdateWithWhereUniqueWithoutInterviewInput[]
-  updateMany?: Prisma.FeedbackUpdateManyWithWhereWithoutInterviewInput | Prisma.FeedbackUpdateManyWithWhereWithoutInterviewInput[]
-  deleteMany?: Prisma.FeedbackScalarWhereInput | Prisma.FeedbackScalarWhereInput[]
+export type FeedbackUncheckedUpdateOneWithoutSessionNestedInput = {
+  create?: Prisma.XOR<Prisma.FeedbackCreateWithoutSessionInput, Prisma.FeedbackUncheckedCreateWithoutSessionInput>
+  connectOrCreate?: Prisma.FeedbackCreateOrConnectWithoutSessionInput
+  upsert?: Prisma.FeedbackUpsertWithoutSessionInput
+  disconnect?: Prisma.FeedbackWhereInput | boolean
+  delete?: Prisma.FeedbackWhereInput | boolean
+  connect?: Prisma.FeedbackWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FeedbackUpdateToOneWithWhereWithoutSessionInput, Prisma.FeedbackUpdateWithoutSessionInput>, Prisma.FeedbackUncheckedUpdateWithoutSessionInput>
 }
 
-export type FeedbackCreateWithoutInterviewInput = {
+export type FeedbackCreateWithoutSessionInput = {
   id?: string
-  score: number
-  feedbackData: string
+  overallScore: number
+  summary: string
+  focusAreas: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  nextStep: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  strengths: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  verdict: string
 }
 
-export type FeedbackUncheckedCreateWithoutInterviewInput = {
+export type FeedbackUncheckedCreateWithoutSessionInput = {
   id?: string
-  score: number
-  feedbackData: string
+  overallScore: number
+  summary: string
+  focusAreas: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  nextStep: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  strengths: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  verdict: string
 }
 
-export type FeedbackCreateOrConnectWithoutInterviewInput = {
+export type FeedbackCreateOrConnectWithoutSessionInput = {
   where: Prisma.FeedbackWhereUniqueInput
-  create: Prisma.XOR<Prisma.FeedbackCreateWithoutInterviewInput, Prisma.FeedbackUncheckedCreateWithoutInterviewInput>
+  create: Prisma.XOR<Prisma.FeedbackCreateWithoutSessionInput, Prisma.FeedbackUncheckedCreateWithoutSessionInput>
 }
 
-export type FeedbackCreateManyInterviewInputEnvelope = {
-  data: Prisma.FeedbackCreateManyInterviewInput | Prisma.FeedbackCreateManyInterviewInput[]
-  skipDuplicates?: boolean
+export type FeedbackUpsertWithoutSessionInput = {
+  update: Prisma.XOR<Prisma.FeedbackUpdateWithoutSessionInput, Prisma.FeedbackUncheckedUpdateWithoutSessionInput>
+  create: Prisma.XOR<Prisma.FeedbackCreateWithoutSessionInput, Prisma.FeedbackUncheckedCreateWithoutSessionInput>
+  where?: Prisma.FeedbackWhereInput
 }
 
-export type FeedbackUpsertWithWhereUniqueWithoutInterviewInput = {
-  where: Prisma.FeedbackWhereUniqueInput
-  update: Prisma.XOR<Prisma.FeedbackUpdateWithoutInterviewInput, Prisma.FeedbackUncheckedUpdateWithoutInterviewInput>
-  create: Prisma.XOR<Prisma.FeedbackCreateWithoutInterviewInput, Prisma.FeedbackUncheckedCreateWithoutInterviewInput>
+export type FeedbackUpdateToOneWithWhereWithoutSessionInput = {
+  where?: Prisma.FeedbackWhereInput
+  data: Prisma.XOR<Prisma.FeedbackUpdateWithoutSessionInput, Prisma.FeedbackUncheckedUpdateWithoutSessionInput>
 }
 
-export type FeedbackUpdateWithWhereUniqueWithoutInterviewInput = {
-  where: Prisma.FeedbackWhereUniqueInput
-  data: Prisma.XOR<Prisma.FeedbackUpdateWithoutInterviewInput, Prisma.FeedbackUncheckedUpdateWithoutInterviewInput>
-}
-
-export type FeedbackUpdateManyWithWhereWithoutInterviewInput = {
-  where: Prisma.FeedbackScalarWhereInput
-  data: Prisma.XOR<Prisma.FeedbackUpdateManyMutationInput, Prisma.FeedbackUncheckedUpdateManyWithoutInterviewInput>
-}
-
-export type FeedbackScalarWhereInput = {
-  AND?: Prisma.FeedbackScalarWhereInput | Prisma.FeedbackScalarWhereInput[]
-  OR?: Prisma.FeedbackScalarWhereInput[]
-  NOT?: Prisma.FeedbackScalarWhereInput | Prisma.FeedbackScalarWhereInput[]
-  id?: Prisma.StringFilter<"Feedback"> | string
-  interviewId?: Prisma.StringFilter<"Feedback"> | string
-  score?: Prisma.IntFilter<"Feedback"> | number
-  feedbackData?: Prisma.StringFilter<"Feedback"> | string
-}
-
-export type FeedbackCreateManyInterviewInput = {
-  id?: string
-  score: number
-  feedbackData: string
-}
-
-export type FeedbackUpdateWithoutInterviewInput = {
+export type FeedbackUpdateWithoutSessionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  score?: Prisma.IntFieldUpdateOperationsInput | number
-  feedbackData?: Prisma.StringFieldUpdateOperationsInput | string
+  overallScore?: Prisma.IntFieldUpdateOperationsInput | number
+  summary?: Prisma.StringFieldUpdateOperationsInput | string
+  focusAreas?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  nextStep?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  strengths?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  verdict?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type FeedbackUncheckedUpdateWithoutInterviewInput = {
+export type FeedbackUncheckedUpdateWithoutSessionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  score?: Prisma.IntFieldUpdateOperationsInput | number
-  feedbackData?: Prisma.StringFieldUpdateOperationsInput | string
-}
-
-export type FeedbackUncheckedUpdateManyWithoutInterviewInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  score?: Prisma.IntFieldUpdateOperationsInput | number
-  feedbackData?: Prisma.StringFieldUpdateOperationsInput | string
+  overallScore?: Prisma.IntFieldUpdateOperationsInput | number
+  summary?: Prisma.StringFieldUpdateOperationsInput | string
+  focusAreas?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  nextStep?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  strengths?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  verdict?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
 
 export type FeedbackSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  interviewId?: boolean
-  score?: boolean
-  feedbackData?: boolean
-  interview?: boolean | Prisma.InterviewDefaultArgs<ExtArgs>
+  overallScore?: boolean
+  sessionId?: boolean
+  summary?: boolean
+  focusAreas?: boolean
+  nextStep?: boolean
+  strengths?: boolean
+  verdict?: boolean
+  session?: boolean | Prisma.SessionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["feedback"]>
 
 export type FeedbackSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  interviewId?: boolean
-  score?: boolean
-  feedbackData?: boolean
-  interview?: boolean | Prisma.InterviewDefaultArgs<ExtArgs>
+  overallScore?: boolean
+  sessionId?: boolean
+  summary?: boolean
+  focusAreas?: boolean
+  nextStep?: boolean
+  strengths?: boolean
+  verdict?: boolean
+  session?: boolean | Prisma.SessionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["feedback"]>
 
 export type FeedbackSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  interviewId?: boolean
-  score?: boolean
-  feedbackData?: boolean
-  interview?: boolean | Prisma.InterviewDefaultArgs<ExtArgs>
+  overallScore?: boolean
+  sessionId?: boolean
+  summary?: boolean
+  focusAreas?: boolean
+  nextStep?: boolean
+  strengths?: boolean
+  verdict?: boolean
+  session?: boolean | Prisma.SessionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["feedback"]>
 
 export type FeedbackSelectScalar = {
   id?: boolean
-  interviewId?: boolean
-  score?: boolean
-  feedbackData?: boolean
+  overallScore?: boolean
+  sessionId?: boolean
+  summary?: boolean
+  focusAreas?: boolean
+  nextStep?: boolean
+  strengths?: boolean
+  verdict?: boolean
 }
 
-export type FeedbackOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "interviewId" | "score" | "feedbackData", ExtArgs["result"]["feedback"]>
+export type FeedbackOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "overallScore" | "sessionId" | "summary" | "focusAreas" | "nextStep" | "strengths" | "verdict", ExtArgs["result"]["feedback"]>
 export type FeedbackInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  interview?: boolean | Prisma.InterviewDefaultArgs<ExtArgs>
+  session?: boolean | Prisma.SessionDefaultArgs<ExtArgs>
 }
 export type FeedbackIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  interview?: boolean | Prisma.InterviewDefaultArgs<ExtArgs>
+  session?: boolean | Prisma.SessionDefaultArgs<ExtArgs>
 }
 export type FeedbackIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  interview?: boolean | Prisma.InterviewDefaultArgs<ExtArgs>
+  session?: boolean | Prisma.SessionDefaultArgs<ExtArgs>
 }
 
 export type $FeedbackPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Feedback"
   objects: {
-    interview: Prisma.$InterviewPayload<ExtArgs>
+    session: Prisma.$SessionPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    interviewId: string
-    score: number
-    feedbackData: string
+    overallScore: number
+    sessionId: string
+    summary: string
+    focusAreas: runtime.JsonValue
+    nextStep: runtime.JsonValue
+    strengths: runtime.JsonValue
+    verdict: string
   }, ExtArgs["result"]["feedback"]>
   composites: {}
 }
@@ -901,7 +960,7 @@ readonly fields: FeedbackFieldRefs;
  */
 export interface Prisma__FeedbackClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  interview<T extends Prisma.InterviewDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InterviewDefaultArgs<ExtArgs>>): Prisma.Prisma__InterviewClient<runtime.Types.Result.GetResult<Prisma.$InterviewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  session<T extends Prisma.SessionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SessionDefaultArgs<ExtArgs>>): Prisma.Prisma__SessionClient<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -932,9 +991,13 @@ export interface Prisma__FeedbackClient<T, Null = never, ExtArgs extends runtime
  */
 export interface FeedbackFieldRefs {
   readonly id: Prisma.FieldRef<"Feedback", 'String'>
-  readonly interviewId: Prisma.FieldRef<"Feedback", 'String'>
-  readonly score: Prisma.FieldRef<"Feedback", 'Int'>
-  readonly feedbackData: Prisma.FieldRef<"Feedback", 'String'>
+  readonly overallScore: Prisma.FieldRef<"Feedback", 'Int'>
+  readonly sessionId: Prisma.FieldRef<"Feedback", 'String'>
+  readonly summary: Prisma.FieldRef<"Feedback", 'String'>
+  readonly focusAreas: Prisma.FieldRef<"Feedback", 'Json'>
+  readonly nextStep: Prisma.FieldRef<"Feedback", 'Json'>
+  readonly strengths: Prisma.FieldRef<"Feedback", 'Json'>
+  readonly verdict: Prisma.FieldRef<"Feedback", 'String'>
 }
     
 

@@ -1,7 +1,7 @@
 import { WebSocketServer } from 'ws'
 import app from './app'
 import http from 'http'
-import { handleInterview } from './modules/interview/interview.socket'
+import { handleInterview } from './modules/session/session.socket'
 
 const server = http.createServer(app)
 
@@ -23,7 +23,7 @@ server.on('upgrade', (req, socket, head) => {
 
     wss.handleUpgrade(req, socket, head, (ws) => {
         // Attach sessionId to the request so the handler can read it
-        ;(req as any).sessionId = sessionId
+        ; (req as any).sessionId = sessionId
         wss.emit('connection', ws, req)
     })
 })

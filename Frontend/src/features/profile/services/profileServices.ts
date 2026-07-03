@@ -1,33 +1,31 @@
-import axios from "axios"
 import { apiClient } from "../../../utils/apiClient"
-import type { CreateProfileInput } from '../profile.types'
+import type { CreateProfileInput, CreateProfileResponse, GetProfileDataResponse, UpdateProfileInput, UpdateProfileResponse } from '../types/profile.types'
 
 export const createProfile = async (data: CreateProfileInput) => {
-    try {
-        const response = await apiClient.post('/profile/create', data)
-        return response
-    } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-            return error.response.data
-        }
-        else {
-            return { success: false, message: 'An Unexpected error occured' }
-        }
-    }
+    const response = await apiClient.post<CreateProfileResponse>('/profile', data)
+    return response.data.data
+}
+
+export const updateProfile = async (data: UpdateProfileInput) => {
+    const response = await apiClient.patch<UpdateProfileResponse>('/profile', data)
+    return response.data.data
 }
 
 export const uploadResume = async (file: File) => {
     const formData = new FormData()
     formData.append('resume', file)
-    try {
-        const response = await apiClient.post('/profile/resume', formData)
-        return response
-    } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-            return error.response.data
-        }
-        else {
-            return { success: false, message: 'An Unexpected error occured' }
-        }
-    }
+    const response = await apiClient.post('/resume', formData)
+    return response.data.data
 }
+
+export const updateResume = async (file: File) => {
+    const formData = new FormData()
+    formData.append('resume', file)
+    const response = await apiClient.patch('/resume', formData)
+    return response.data.data
+}
+
+export const getUserProfile = async () => {
+    const response = await apiClient.get<GetProfileDataResponse>('/profile/getProfile')
+    return response.data.data
+} 

@@ -13,10 +13,19 @@ export const findUserProfile = async (userId: string) => {
             firstName: true,
             lastName: true,
             skills: true,
-            resumeUrl: true,
-            resumeText: true,
             credits: true,
             updatedAt: true
+        }
+    })
+}
+
+export const getResume = async (userId: string) => {
+    return await prisma.resume.findUnique({
+        where: { userId },
+        select: {
+            resumeText: true,
+            resumeUrl: true,
+            resumeKey: true
         }
     })
 }

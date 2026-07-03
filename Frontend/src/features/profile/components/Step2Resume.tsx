@@ -1,27 +1,25 @@
-import { FileText, ArrowLeft, ArrowRight } from 'lucide-react';
+import { FileText, ArrowLeft, ArrowRight, Loader2 } from 'lucide-react';
 import { useRef, useState } from 'react';
-import * as profileServices from '../services/profileServices'
 import { toast } from 'sonner';
+import { useUploadResume } from '../hooks/profileDataHook';
 
 
-export default function Step2Resume({ onNext }: { onNext: () => void }) {
+export default function Step2Resume({ onNext, onBack }: { onNext: () => void; onBack: () => void }) {
+
+  const { uploadResume, isPending } = useUploadResume()
 
   const [file, setFile] = useState(null)
   const fileInputRef = useRef(null)
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!file) {
-      console.log('Please upload a file')
+      toast.error('Please upload a file')
+      return;
     }
-    const result = await profileServices.uploadResume(file)
-    console.log(result)
-    if (result.data?.success) {
-      toast.success(result.data.message)
-      onNext()
-    }
-    else {
-      toast.error(result.message)
-    }
-
+    uploadResume(file, {
+      onSuccess: () => {
+        onNext()
+      }
+    })
   }
 
 
@@ -61,12 +59,27 @@ export default function Step2Resume({ onNext }: { onNext: () => void }) {
 
         {/* Bottom Actions */}
         <div className="flex items-center justify-between border-t border-gray-800 pt-8">
-          <button className="flex items-center gap-2 px-6 py-3 bg-transparent border border-gray-800 hover:border-gray-600 rounded-md text-xs font-bold text-white uppercase tracking-widest transition-colors">
+          <button 
+            type="button"
+            onClick={onBack}
+            className="flex items-center gap-2 px-6 py-3 bg-transparent border border-gray-800 hover:border-gray-600 rounded-md text-xs font-bold text-white uppercase tracking-widest transition-colors cursor-pointer"
+          >
             <ArrowLeft size={16} /> Back
           </button>
 
-          <button onClick={handleSubmit} className="flex items-center gap-2 px-8 py-3 bg-[#00E599] hover:bg-[#00c985] rounded-md text-sm font-bold text-black transition-colors">
-            Next <ArrowRight size={18} />
+          <button
+            disabled={isPending}
+            onClick={handleSubmit}
+            className="relative flex items-center justify-center gap-2 px-8 py-3 bg-[#00E599] hover:bg-[#00c985] rounded-md text-sm font-bold text-black transition-all overflow-hidden min-w-[120px]"
+          >
+            <span className={`flex items-center gap-2 transition-all duration-300 ${isPending ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'}`}>
+              Next <ArrowRight size={18} />
+            </span>
+            {isPending && (
+              <span className="absolute inset-0 flex items-center justify-center">
+                <Loader2 className="animate-spin text-black" size={18} strokeWidth={2.5} />
+              </span>
+            )}
           </button>
         </div>
       </div>

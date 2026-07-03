@@ -1,38 +1,32 @@
-import { ChevronDown, X, Type, Hexagon, ArrowRight } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { getProfile } from '../../../dashboard/services/dashboardServices';
+import { ChevronDown, X, Type, ArrowRight } from 'lucide-react';
+import { useState } from 'react';
+import type { InterviewContext } from '../types/interviewContext.types';
+// import { getProfile } from '../../../dashboard/services/dashboardServices';
 
-export default function SetupForm() {
+interface SetupFormProps {
+  onSubmit: (context: InterviewContext) => void
+  isPending: boolean
+}
 
-  const rounds: string[] = ['Technical/Coding', 'System Design', 'Behavioral']
+export default function SetupForm({ onSubmit, isPending }: SetupFormProps) {
+
   const roleOptions: string[] = ['SDE', 'Backend Developer', 'Frontend Developer', 'Full-Stack Developer', 'AI Full Stack Developer']
-  const durationOptions: number[] = [20, 30]
-
   const [title, setTitle] = useState('')
-  const [type, settype] = useState('Technical/Coding')
   const [role, setRole] = useState('SDE')
   const [experience, setExperience] = useState('')
   const [activeSkill, setActiveSkill] = useState('')
   const [skills, setSkills] = useState<string[]>([])
-  const [resumeText, setResumeText] = useState('')
   const [jobDescription, setJobDescription] = useState('')
-  const [duration, setDuration] = useState(20)
 
-  useEffect(() => {
-    const getSkills = async () => {
-      const result = await getProfile()
-      setSkills(result.profile.skills)
-      setResumeText(result.profile.resumeText)
-      console.log(resumeText)
-    }
-    getSkills()
-  }, [resumeText])
+  const handleSubmit = () => {
+    onSubmit({ title, role, skills, experience, jobDescription })
+  }
 
   return (
-    <div className="bg-[#111623] border border-gray-800 rounded-xl p-8 max-w-3xl w-full mx-auto">
+    <div className="bg-[#111623] border border-gray-800 rounded-xl p-6 max-w-3xl w-full mx-auto">
 
       {/* Title */}
-      <div className="mb-6">
+      <div className="mb-4">
         <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Title</label>
         <input
           type="text"
@@ -45,24 +39,8 @@ export default function SetupForm() {
         />
       </div>
 
-      {/* Type */}
-      <div className="mb-6">
-        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Type</label>
-        <div className="flex bg-[#0B0F19] border border-gray-800 rounded-md p-1">
-          {rounds.map((round: string) => {
-            return (
-              <button
-                key={round}
-                onClick={() => { settype(round) }}
-                className={`flex-1 py-2 text-xs ${round === type ? 'font-bold text-white bg-[#1A2235] rounded shadow-sm border border-gray-700 transition-colors' : 'font-semibold text-gray-400 hover:text-gray-300 transition-colors'}`}>
-                {round}
-              </button>)
-          })}
-        </div>
-      </div>
-
       {/* Role & Skills */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
         {/* Role */}
         <div>
           <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Role</label>
@@ -84,7 +62,7 @@ export default function SetupForm() {
         </div>
 
         {/* Exp */}
-        <div className="mb-6">
+        <div className="mb-4">
           <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Experience</label>
           <input
             type="text"
@@ -100,7 +78,7 @@ export default function SetupForm() {
       </div>
 
       {/* Skills */}
-      <div className='mb-6'>
+      <div className='mb-4'>
         <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Skills</label>
         <div className="flex flex-wrap items-center gap-2 bg-[#0B0F19] border border-gray-800 rounded-md p-4 min-h-[46px]">
           {skills.map((skill, index) => (
@@ -136,7 +114,7 @@ export default function SetupForm() {
       </div>
 
       {/* Job Description */}
-      <div className="mb-6 relative">
+      <div className="mb-4 relative">
         <div className="flex justify-between mb-2">
           <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest">Job Description</label>
           <span className="text-[10px] font-semibold text-gray-600 uppercase tracking-widest">Optional</span>
@@ -156,34 +134,15 @@ export default function SetupForm() {
         </div>
       </div>
 
-      {/* Duration */}
-      <div className="mb-6">
-        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Duration</label>
-        <div className="flex bg-[#0B0F19] border border-gray-800 rounded-md p-1 max-w-[240px]">
-          {durationOptions.map((min, index) => (
-            <button
-              key={index}
-              onClick={() => { setDuration(min) }}
-              className={`flex-1 py-1.5 text-xs ${min === duration ? 'font-bold text-white bg-[#1A2235] rounded shadow-sm border border-gray-700 transition-colors' : 'font-semibold text-gray-400 hover:text-gray-300 transition-colors'}`}>
-              {min} min
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Footer is injected here */}
-      <div className="mt-8 pt-6 border-t border-gray-800 flex items-center justify-between">
-        {/* Credits cost indicator */}
-        <div className="flex items-center gap-2">
-          <Hexagon className="text-[#00E599]" size={16} />
-          <span className="text-xs font-semibold text-gray-400">
-            This session will use ~{duration} credits
-          </span>
-        </div>
-
+      <div className="mt-4 pt-6 border-t border-gray-800 flex items-center">
         {/* Start Button */}
-        <button className="flex items-center gap-2 px-6 py-3 bg-[#00E599] hover:bg-[#00c985] text-black font-bold text-sm rounded-md transition-all shadow-[0_0_15px_rgba(0,229,153,0.3)]">
-          Start Interview <ArrowRight size={18} />
+        <button
+          onClick={handleSubmit}
+          disabled={isPending}
+          className="flex items-center gap-2 mx-auto px-6 py-3 bg-[#00E599] hover:bg-[#00c985] text-black font-bold text-sm rounded-md transition-all shadow-[0_0_15px_rgba(0,229,153,0.3)]">
+          {isPending ? 'Creating....' : 'Create Interview'}
+          <ArrowRight size={18} />
         </button>
       </div>
 

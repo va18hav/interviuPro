@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { WebSocket } from 'ws';
-import type { ClientResponse, InterviewContext, StartInterview } from "./interview.types";
 import * as interviewService from './interview.service'
 
 export const createInterview = async (req: Request, res: Response) => {
@@ -14,32 +13,37 @@ export const createInterview = async (req: Request, res: Response) => {
     })
 }
 
-export const startInterview = async (req: Request, res: Response) => {
+export const fetchInterview = async (req: Request, res: Response) => {
     const interviewId = req.params.interviewId as string
-    const userId = req.userId as string
-    const sessionId = await interviewService.startInterview(interviewId, userId)
+    const interview = await interviewService.fetchInterview(interviewId)
     res.status(200).json({
         success: true,
-        message: 'Starting the session',
-        data: sessionId
+        message: 'Interview fetched Successfully',
+        data: {
+            title: interview?.title
+        }
     })
 }
 
-export const fetchInterview = async (req: Request, res: Response) => {
-    const interviewId = req.body.interviewId
-    const interview = await interviewService.fetchInterview(interviewId)
-    res.json(interview)
+export const fetchAllInterviews = async (req: Request, res: Response) => {
+    const userId = req.userId as string
+    const data = await interviewService.fetchAllInterviews(userId)
+    res.status(200).json({
+        success: true,
+        message: 'Interviews fetched successfully',
+        data: data
+    })
 }
 
-export const handleMessage = async (sessionId: string, message: ClientResponse, userId: string) => {
-    switch (message.type) {
-        case 'start_interview':
-            return interviewService.setupGemini(sessionId, userId)
-        case 'candidate_audio':
-            return interviewService.processCandidateMessage(sessionId, message)
-        case 'end-interview':
-            return interviewService.endInterview(sessionId)
-    }
+export const fetchInterviewSessions = async (req: Request, res: Response) => {
+    const userId = req.userId as string
+    const interviewId = req.params.interviewId as string
+    const data = await interviewService.fetchInterviewSessions(interviewId, userId)
+    res.status(200).json({
+        success: true,
+        message: 'All the sessions fetched successfully',
+        data: data
+    })
 }
 
 

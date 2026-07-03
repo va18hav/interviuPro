@@ -1,29 +1,27 @@
-import { Plus } from 'lucide-react';
+import { X, Loader2 } from 'lucide-react';
 import { useState } from 'react';
-import * as profileServices from '../services/profileServices'
+import { useUploadProfileData } from '../hooks/profileDataHook';
+import { toast } from 'sonner';
 
 export default function Step1Profile({ onNext }: { onNext: () => void }) {
-
+  const { createProfile, isPending } = useUploadProfileData()
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [activeSkill, setActiveSkill] = useState('')
   const [skills, setSkills] = useState([])
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!firstName) {
-      console.log('Please enter your first name')
+      toast.error('First Name is required');
+      return;
     }
     const data = { firstName, lastName, skills }
-    const result = await profileServices.createProfile(data)
-    if (result.data.success) {
-      console.log(result.data)
-      onNext()
-    }
-    else {
-      console.log(result.data)
-    }
+    createProfile(data, {
+      onSuccess: () => {
+        onNext();
+      }
+    });
   }
-
   return (
     <div className="w-full relative max-w-2xl mx-auto flex flex-col items-center">
       {/* Header text */}
@@ -72,55 +70,57 @@ export default function Step1Profile({ onNext }: { onNext: () => void }) {
 
         {/* Technical Skills Section */}
         <section>
-          <div className="border-b border-gray-800 pb-2 mb-3">
-            <h2 className="text-[10px] font-bold text-[#00E599] uppercase tracking-[0.2em]">Technical Skills</h2>
-          </div>
-
-          <div className="space-y-4">
-            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-              Select Your Core Technologies
-            </label>
-
-            <div className="mt-2 flex flex-wrap gap-2">
-              {skills.map((skill) => {
-                return (
-                  <button
-                    key={skill}
-                    className='px-4 py-1.5 rounded-full text-xs font-semibold border transition-colors bg-[#00E599] border-[#00E599] text-black'
-                  >
-                    {skill}
-                  </button>
-                )
-              })}
-            </div>
-
-            <div className="flex gap-2 pt-2">
+          <div className='mb-4'>
+            <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Skills</label>
+            <div className="flex flex-wrap items-center gap-2 bg-[#0B0F19] border border-gray-800 rounded-md p-4 min-h-[46px]">
+              {skills.map((skill, index) => (
+                <div key={index} className="flex items-center gap-1.5 px-3 py-1 bg-[#00E599]/10 border border-[#00E599]/30 rounded-full text-[11px] font-bold text-[#00E599]">
+                  {skill}
+                  <X size={12}
+                    onClick={() => {
+                      setSkills(prev => prev.filter((_, i) => i !== index))
+                    }}
+                    className="cursor-pointer hover:text-white" />
+                </div>
+              ))}
               <input
                 type="text"
                 onChange={(e) => {
-                  setActiveSkill(e.target.value)
+                  if (e.target.value !== ',' && e.target.value !== '.' && e.target.value !== ' ') {
+                    setActiveSkill(e.target.value)
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (activeSkill !== '') {
+                    if (e.key === 'Enter' || e.key === ',') {
+                      skills.push(activeSkill)
+                      setActiveSkill('')
+                    }
+                  }
                 }}
                 value={activeSkill}
-                placeholder="Add custom skill (e.g. Kubernetes)"
-                className="flex-1 bg-transparent border border-gray-800 rounded-md px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00E599] transition-colors"
+                placeholder="Add skils. Press ',' or 'Enter' after typing the skill"
+                className="flex-1 min-w-[80px] bg-transparent border-none text-xs text-white placeholder-gray-600 focus:outline-none px-2"
               />
-              <button
-                type="button"
-                onClick={() => {
-                  setSkills([...skills, activeSkill])
-                  setActiveSkill('')
-                }}
-                className="w-12 flex items-center justify-center bg-[#1A2235] hover:bg-[#232D45] text-[#00E599] rounded-md transition-colors border border-gray-800">
-                <Plus size={18} />
-              </button>
             </div>
           </div>
         </section>
 
         {/* Bottom Actions */}
         <div className="pt-8">
-          <button onClick={handleSubmit} className="w-full bg-[#00E599] hover:bg-[#00c985] text-black font-semibold py-3.5 rounded-md text-sm transition-colors">
-            Continue to Experience
+          <button
+            disabled={isPending}
+            onClick={handleSubmit}
+            className="relative w-full bg-[#00E599] hover:bg-[#00c985] text-black font-semibold py-3.5 rounded-md text-sm transition-all flex justify-center items-center overflow-hidden"
+          >
+            <span className={`flex items-center gap-2 transition-all duration-300 ${isPending ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'}`}>
+              Continue to Experience
+            </span>
+            {isPending && (
+              <span className="absolute inset-0 flex items-center justify-center">
+                <Loader2 className="animate-spin text-black" size={18} strokeWidth={2.5} />
+              </span>
+            )}
           </button>
         </div>
 
