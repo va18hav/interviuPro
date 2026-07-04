@@ -44,6 +44,10 @@ export default function Room() {
 
   const { interviewId, sessionId } = useParams()
 
+  if (!interviewId || !sessionId) {
+    return <div className="text-white p-6">Invalid session URL.</div>
+  }
+
   return (
     <SessionProvider interviewId={interviewId} sessionId={sessionId} >
       <RoomContent />

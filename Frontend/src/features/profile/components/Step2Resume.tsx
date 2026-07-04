@@ -8,8 +8,8 @@ export default function Step2Resume({ onNext, onBack }: { onNext: () => void; on
 
   const { uploadResume, isPending } = useUploadResume()
 
-  const [file, setFile] = useState(null)
-  const fileInputRef = useRef(null)
+  const [file, setFile] = useState<File | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const handleSubmit = () => {
     if (!file) {
       toast.error('Please upload a file')
@@ -35,7 +35,7 @@ export default function Step2Resume({ onNext, onBack }: { onNext: () => void; on
       <div className="w-full">
         {/* Upload Box */}
         <div
-          onClick={() => { fileInputRef.current.click() }}
+          onClick={() => { fileInputRef.current?.click() }}
           className="w-full bg-[#111623] border border-gray-800 rounded-xl p-16 flex flex-col items-center justify-center mb-12 hover:border-gray-700 transition-colors cursor-pointer border-dashed">
           <div className="w-12 h-12 bg-[#1A2235] rounded-lg flex items-center justify-center mb-6">
             <FileText className="text-[#00E599]" size={24} />
@@ -53,7 +53,7 @@ export default function Step2Resume({ onNext, onBack }: { onNext: () => void; on
             accept='.pdf'
             className='hidden'
             ref={fileInputRef}
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={(e) => setFile(e.target.files?.[0] || null)}
           />
         </div>
 

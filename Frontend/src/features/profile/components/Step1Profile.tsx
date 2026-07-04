@@ -8,7 +8,7 @@ export default function Step1Profile({ onNext }: { onNext: () => void }) {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [activeSkill, setActiveSkill] = useState('')
-  const [skills, setSkills] = useState([])
+  const [skills, setSkills] = useState<string[]>([])
 
   const handleSubmit = () => {
     if (!firstName) {
@@ -93,7 +93,8 @@ export default function Step1Profile({ onNext }: { onNext: () => void }) {
                 onKeyDown={(e) => {
                   if (activeSkill !== '') {
                     if (e.key === 'Enter' || e.key === ',') {
-                      skills.push(activeSkill)
+                      e.preventDefault()
+                      setSkills(prev => [...prev, activeSkill])
                       setActiveSkill('')
                     }
                   }

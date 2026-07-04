@@ -6,7 +6,8 @@ export const useGetInterviewSessionsData = () => {
     const { interviewId } = useParams()
     const { data: interviewData, isLoading, isError } = useQuery({
         queryKey: ['interview', interviewId],
-        queryFn: () => interviewSessionsService.getInterviewAndSessionsData(interviewId)
+        queryFn: () => interviewSessionsService.getInterviewAndSessionsData(interviewId!),
+        enabled: !!interviewId
     })
     return {
         interviewData,

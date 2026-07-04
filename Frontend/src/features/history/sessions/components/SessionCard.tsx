@@ -7,8 +7,8 @@ export interface SessionData {
   date: string
   duration: number
   type: string
-  score: number
-  verdict: string
+  score: number | null
+  verdict: string | null
   icon: LucideIcon;
 }
 
@@ -42,7 +42,8 @@ export default function SessionCard({ session }: SessionCardProps) {
   };
 
   // Score style mapping
-  const getScoreColor = (score: number) => {
+  const getScoreColor = (score: number | null) => {
+    if (score === null) return 'text-gray-400';
     if (score >= 90) return 'text-[#00E599]';
     if (score >= 70) return 'text-emerald-400';
     return 'text-orange-400';

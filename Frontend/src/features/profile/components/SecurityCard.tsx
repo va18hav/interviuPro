@@ -3,7 +3,7 @@ import { Shield } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface SecurityCardProps {
-  updatePassword: (password: string, options?) => void;
+  updatePassword: (password: string, options?: unknown) => void;
   isUpdating: boolean;
 }
 

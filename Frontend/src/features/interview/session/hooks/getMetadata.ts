@@ -7,7 +7,8 @@ export const useGetMetaData = () => {
     const { interviewId } = useParams()
     const { data, isPending } = useQuery({
         queryKey: ['interview-metaData', interviewId],
-        queryFn: () => getMetaDataService.getMetadata(interviewId)
+        queryFn: () => getMetaDataService.getMetadata(interviewId!),
+        enabled: !!interviewId
     })
     const title = data?.title ?? ''
     return {

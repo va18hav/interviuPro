@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react"
 
 export interface SessionContextType {
-    remainingSeconds: number
+    remainingSeconds: number | null
     aiMessage: string;
     endSession: () => void;
     abandonSession: () => void;

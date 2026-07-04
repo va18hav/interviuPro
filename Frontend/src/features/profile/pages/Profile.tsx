@@ -10,7 +10,7 @@ export default function Profile() {
   const { updateResume, isUpdatingResume } = useUpdateResume();
   const { updatePassword, isUpdatingPassword } = useUpdatePassword();
 
-  if (loadingProfileData) {
+  if (loadingProfileData || !profile) {
     return (
       <div className="max-w-4xl mx-auto p-8 lg:p-12 animate-pulse space-y-8 text-white font-sans">
         <div className="h-8 bg-gray-800 rounded w-1/4 mb-10"></div>

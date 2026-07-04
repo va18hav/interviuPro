@@ -15,7 +15,7 @@ export default function Interviews() {
       let scoredSessions = 0;
 
       for (const session of interview.sessions) {
-        if (session.feedback?.overallScore > 0) {
+        if (session.feedback && session.feedback.overallScore > 0) {
           totalScore += session.feedback.overallScore
           scoredSessions++
         }

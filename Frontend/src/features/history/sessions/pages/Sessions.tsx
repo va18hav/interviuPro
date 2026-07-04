@@ -2,7 +2,6 @@ import { Plus, ChevronDown, Network, AlertCircle } from 'lucide-react';
 import SessionCard from '../components/SessionCard';
 import SessionFilters from '../components/SessionFilters';
 import { useGetSessionsData } from '../hooks/sessionsDataHook';
-import { SessionsData } from '../types/sessionsData.types';
 import SessionCardSkeleton from '../components/SessionCardSkeleton';
 
 // const useIcon = (type: 'Techical Round/Coding' | 'System Design' | 'Behavioral') => {
@@ -21,8 +20,7 @@ import SessionCardSkeleton from '../components/SessionCardSkeleton';
 
 export default function Sessions() {
 
-  const { sessions = [], isLoading, isError }
-    : { sessions: SessionsData[], isLoading: boolean, isError: boolean } = useGetSessionsData()
+  const { sessions = [], isLoading, isError } = useGetSessionsData()
   console.log(sessions)
 
   if (isError) {

@@ -5,14 +5,12 @@ import FeedbackDetails from '../components/FeedbackDetails';
 import TranscriptSection from '../components/TranscriptSection';
 import { useSessionData } from '../hooks/sessionDataHook';
 import { AlertCircle } from 'lucide-react';
-import { SessionData } from '../types/session.types'
 import { useNavigate } from 'react-router-dom';
 import SessionSkeleton from '../components/SessionSkeleton';
 
 export default function Session() {
   const navigate = useNavigate()
-  const { isLoading, isError, sessionData }
-    : { isLoading: boolean, isError: boolean, sessionData: SessionData } = useSessionData()
+  const { isLoading, isError, sessionData } = useSessionData()
   const handleBack = () => {
     navigate('/dashboard')
   };
@@ -21,7 +19,7 @@ export default function Session() {
     return <SessionSkeleton />;
   }
 
-  if (isError) {
+  if (isError || !sessionData) {
     return (
       <div className="flex flex-col items-center justify-center h-[60vh] gap-3 text-gray-400">
         <AlertCircle size={24} className="text-red-400" />

@@ -3,7 +3,7 @@ import * as profileService from '../services/profileServices'
 import { toast } from "sonner";
 
 export const useGetProfileData = () => {
-    const { data = {}, isPending, isError } = useQuery({
+    const { data, isPending, isError } = useQuery({
         queryKey: ['profile-data'],
         queryFn: profileService.getUserProfile,
         staleTime: 1000 * 60 * 10

@@ -6,7 +6,8 @@ export const useSessionData = () => {
     const { sessionId } = useParams()
     const { data: sessionData, isLoading, isError } = useQuery({
         queryKey: ['session', sessionId],
-        queryFn: () => sessionService.getSessionData(sessionId),
+        queryFn: () => sessionService.getSessionData(sessionId!),
+        enabled: !!sessionId,
         staleTime: 1000 * 60 * 10
     })
 
@@ -21,9 +22,9 @@ export const useSessionTranscript = (isEnabled = true) => {
     const { sessionId } = useParams()
     const { data: transcript, isError, isLoading } = useQuery({
         queryKey: ['transcript', sessionId],
-        queryFn: () => sessionService.getSessionTranscript(sessionId),
+        queryFn: () => sessionService.getSessionTranscript(sessionId!),
         staleTime: 1000 * 60 * 10,
-        enabled: isEnabled
+        enabled: isEnabled && !!sessionId
     })
 
     return {

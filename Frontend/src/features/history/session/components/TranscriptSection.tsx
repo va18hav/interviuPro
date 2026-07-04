@@ -1,13 +1,11 @@
 import { AlertCircle, Bot, CircleArrowDown, CircleArrowUp, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { useSessionTranscript } from '../hooks/sessionDataHook';
-import { SessionTranscriptData } from '../../session/types/session.types';
 
 export default function TranscriptSection() {
 
   const [showTranscript, setShowTranscript] = useState(false)
-  const { transcript, isError, isLoading }
-    : { transcript: SessionTranscriptData, isError: boolean, isLoading: boolean } = useSessionTranscript(showTranscript)
+  const { transcript, isError, isLoading } = useSessionTranscript(showTranscript)
   return (
     <div className="w-full space-y-4">
       {/* Heading */}

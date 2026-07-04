@@ -13,7 +13,7 @@ export const SessionProvider = ({ children, interviewId, sessionId }: { children
     const hasEndedRef = useRef(false)
     const isAbandonedRef = useRef(false)
     const socketRef = useRef<WebSocket | null>(null)
-    const [remainingSeconds, setRemainingSeconds] = useState(null)
+    const [remainingSeconds, setRemainingSeconds] = useState<number | null>(null)
     const playChunkRef = useRef<((chunk: string) => void) | null>(null)
     const [generatingFeedback, setGeneratingFeedback] = useState(false)
     const [aiMessage, setAiMessage] = useState('')
@@ -114,19 +114,20 @@ export const SessionProvider = ({ children, interviewId, sessionId }: { children
     }, [remainingSeconds === null, generatingFeedback])
 
     useEffect(() => {
-        socketRef.current = connectToSocket(sessionId)
+        const socket = connectToSocket(sessionId)
+        socketRef.current = socket
 
         playChunkRef.current = initializePlayer(() => {
             setAiSpeaking(false)
         })
 
-        socketRef.current.onopen = () => {
-            socketRef.current.send(JSON.stringify({
+        socket.onopen = () => {
+            socket.send(JSON.stringify({
                 type: 'start_interview'
             }))
         }
 
-        socketRef.current.onmessage = (event) => {
+        socket.onmessage = (event) => {
             const message = JSON.parse(event.data)
             switch (message.type) {
                 case 'tts-chunk':
