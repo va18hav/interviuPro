@@ -1,5 +1,5 @@
 export const connectToSocket = (sessionId: string) => {
-    return new WebSocket(`ws://localhost:3000/session/${sessionId}`)
+    return new WebSocket(`${import.meta.env.VITE_WS_URL}/session/${sessionId}`)
 }
 
 // useEffect(() => {
