@@ -48,5 +48,3 @@ export const fetchInterviewSessions = async (req: Request, res: Response) => {
 
 
 
-
-

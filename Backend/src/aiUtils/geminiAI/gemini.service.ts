@@ -1,7 +1,7 @@
 import { GoogleGenAI, Modality } from '@google/genai';
 import { WebSocket } from 'ws';
-import { sessions } from '../../modules/session/session';
-import { cacheHistory, getCacheSession, updateGeminiToken } from '../../modules/session/session.redis';
+import { sessions } from '../../modules/session/session.js';
+import { cacheHistory, getCacheSession, updateGeminiToken } from '../../modules/session/session.redis.js';
 
 // 1. Initialize the Google GenAI Client
 const ai = new GoogleGenAI({
@@ -9,7 +9,6 @@ const ai = new GoogleGenAI({
 });
 
 export const setupGeminiConnection = async (sessionId: string, systemPrompt: string) => {
-    let seq = 1
     let retries = 0
     let aiTranscriptBuffer = ''
     let currentGeminiSession: any = null

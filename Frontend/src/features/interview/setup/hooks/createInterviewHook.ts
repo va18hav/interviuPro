@@ -26,8 +26,12 @@ export const useStartSession = () => {
     const navigate = useNavigate()
     const { mutate, isPending } = useMutation({
         mutationFn: createinterviewSerivce.startSession,
-        onSuccess: ({ interviewId, sessionId }) => {
-            navigate(`/interview/${interviewId}/session/${sessionId}`)
+        onSuccess: ({ interviewId, sessionId, title }) => {
+            navigate(`/interview/${interviewId}/session/${sessionId}`, {
+                state:{
+                    title
+                }
+            })
         },
         onError: (error) => {
             toast.error(error.message)
