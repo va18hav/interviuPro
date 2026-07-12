@@ -132,7 +132,14 @@ export const setupGeminiConnection = async (sessionId: string, systemPrompt: str
 
                     if (content?.turnComplete) await flushAITranscript()
 
-                    if (content?.inputTranscription) await pushTranscript('user', content.inputTranscription.text)
+                    if (content?.inputTranscription) {
+                        const userText = content.inputTranscription.text;
+                        // Filter out non-English/non-Latin script hallucinations (caused by background noise/static)
+                        const hasNonEnglishScript = /[^\p{Script=Latin}\p{Number}\p{Punctuation}\p{Separator}\p{Symbol}]/u.test(userText);
+                        if (userText.trim() && !hasNonEnglishScript) {
+                            await pushTranscript('user', userText.trim());
+                        }
+                    }
 
 
                     if (cacheSession && sessionResumption?.resumable && sessionResumption?.newHandle) {

@@ -25,6 +25,9 @@ export interface FocusAreas {
 
 export interface FeedbackData {
     overallScore: number
+    technicalScore: number
+    communicationScore: number
+    problemSolvingScore: number
     verdict: string
     summary: string
     strengths: string[]

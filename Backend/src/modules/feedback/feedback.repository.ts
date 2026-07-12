@@ -23,11 +23,24 @@ export const feedbackContext = async (sessionId: string) => {
 }
 
 export const createFeedback = async (sessionId: string, feedbackData: FeedbackData) => {
-    const { overallScore, verdict, summary, strengths, focusAreas, nextSteps } = feedbackData
+    const {
+        overallScore,
+        technicalScore,
+        communicationScore,
+        problemSolvingScore,
+        verdict,
+        summary,
+        strengths,
+        focusAreas,
+        nextSteps
+    } = feedbackData
     return await prisma.feedback.create({
         data: {
             sessionId,
             overallScore,
+            technicalScore,
+            communicationScore,
+            problemSolvingScore,
             verdict,
             summary,
             strengths,

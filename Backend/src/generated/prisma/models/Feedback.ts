@@ -28,15 +28,24 @@ export type AggregateFeedback = {
 
 export type FeedbackAvgAggregateOutputType = {
   overallScore: number | null
+  technicalScore: number | null
+  communicationScore: number | null
+  problemSolvingScore: number | null
 }
 
 export type FeedbackSumAggregateOutputType = {
   overallScore: number | null
+  technicalScore: number | null
+  communicationScore: number | null
+  problemSolvingScore: number | null
 }
 
 export type FeedbackMinAggregateOutputType = {
   id: string | null
   overallScore: number | null
+  technicalScore: number | null
+  communicationScore: number | null
+  problemSolvingScore: number | null
   sessionId: string | null
   summary: string | null
   verdict: string | null
@@ -45,6 +54,9 @@ export type FeedbackMinAggregateOutputType = {
 export type FeedbackMaxAggregateOutputType = {
   id: string | null
   overallScore: number | null
+  technicalScore: number | null
+  communicationScore: number | null
+  problemSolvingScore: number | null
   sessionId: string | null
   summary: string | null
   verdict: string | null
@@ -53,6 +65,9 @@ export type FeedbackMaxAggregateOutputType = {
 export type FeedbackCountAggregateOutputType = {
   id: number
   overallScore: number
+  technicalScore: number
+  communicationScore: number
+  problemSolvingScore: number
   sessionId: number
   summary: number
   focusAreas: number
@@ -65,15 +80,24 @@ export type FeedbackCountAggregateOutputType = {
 
 export type FeedbackAvgAggregateInputType = {
   overallScore?: true
+  technicalScore?: true
+  communicationScore?: true
+  problemSolvingScore?: true
 }
 
 export type FeedbackSumAggregateInputType = {
   overallScore?: true
+  technicalScore?: true
+  communicationScore?: true
+  problemSolvingScore?: true
 }
 
 export type FeedbackMinAggregateInputType = {
   id?: true
   overallScore?: true
+  technicalScore?: true
+  communicationScore?: true
+  problemSolvingScore?: true
   sessionId?: true
   summary?: true
   verdict?: true
@@ -82,6 +106,9 @@ export type FeedbackMinAggregateInputType = {
 export type FeedbackMaxAggregateInputType = {
   id?: true
   overallScore?: true
+  technicalScore?: true
+  communicationScore?: true
+  problemSolvingScore?: true
   sessionId?: true
   summary?: true
   verdict?: true
@@ -90,6 +117,9 @@ export type FeedbackMaxAggregateInputType = {
 export type FeedbackCountAggregateInputType = {
   id?: true
   overallScore?: true
+  technicalScore?: true
+  communicationScore?: true
+  problemSolvingScore?: true
   sessionId?: true
   summary?: true
   focusAreas?: true
@@ -188,6 +218,9 @@ export type FeedbackGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 export type FeedbackGroupByOutputType = {
   id: string
   overallScore: number
+  technicalScore: number
+  communicationScore: number
+  problemSolvingScore: number
   sessionId: string
   summary: string
   focusAreas: runtime.JsonValue
@@ -222,6 +255,9 @@ export type FeedbackWhereInput = {
   NOT?: Prisma.FeedbackWhereInput | Prisma.FeedbackWhereInput[]
   id?: Prisma.StringFilter<"Feedback"> | string
   overallScore?: Prisma.IntFilter<"Feedback"> | number
+  technicalScore?: Prisma.IntFilter<"Feedback"> | number
+  communicationScore?: Prisma.IntFilter<"Feedback"> | number
+  problemSolvingScore?: Prisma.IntFilter<"Feedback"> | number
   sessionId?: Prisma.StringFilter<"Feedback"> | string
   summary?: Prisma.StringFilter<"Feedback"> | string
   focusAreas?: Prisma.JsonFilter<"Feedback">
@@ -234,6 +270,9 @@ export type FeedbackWhereInput = {
 export type FeedbackOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   overallScore?: Prisma.SortOrder
+  technicalScore?: Prisma.SortOrder
+  communicationScore?: Prisma.SortOrder
+  problemSolvingScore?: Prisma.SortOrder
   sessionId?: Prisma.SortOrder
   summary?: Prisma.SortOrder
   focusAreas?: Prisma.SortOrder
@@ -250,6 +289,9 @@ export type FeedbackWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.FeedbackWhereInput[]
   NOT?: Prisma.FeedbackWhereInput | Prisma.FeedbackWhereInput[]
   overallScore?: Prisma.IntFilter<"Feedback"> | number
+  technicalScore?: Prisma.IntFilter<"Feedback"> | number
+  communicationScore?: Prisma.IntFilter<"Feedback"> | number
+  problemSolvingScore?: Prisma.IntFilter<"Feedback"> | number
   summary?: Prisma.StringFilter<"Feedback"> | string
   focusAreas?: Prisma.JsonFilter<"Feedback">
   nextStep?: Prisma.JsonFilter<"Feedback">
@@ -261,6 +303,9 @@ export type FeedbackWhereUniqueInput = Prisma.AtLeast<{
 export type FeedbackOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   overallScore?: Prisma.SortOrder
+  technicalScore?: Prisma.SortOrder
+  communicationScore?: Prisma.SortOrder
+  problemSolvingScore?: Prisma.SortOrder
   sessionId?: Prisma.SortOrder
   summary?: Prisma.SortOrder
   focusAreas?: Prisma.SortOrder
@@ -280,6 +325,9 @@ export type FeedbackScalarWhereWithAggregatesInput = {
   NOT?: Prisma.FeedbackScalarWhereWithAggregatesInput | Prisma.FeedbackScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Feedback"> | string
   overallScore?: Prisma.IntWithAggregatesFilter<"Feedback"> | number
+  technicalScore?: Prisma.IntWithAggregatesFilter<"Feedback"> | number
+  communicationScore?: Prisma.IntWithAggregatesFilter<"Feedback"> | number
+  problemSolvingScore?: Prisma.IntWithAggregatesFilter<"Feedback"> | number
   sessionId?: Prisma.StringWithAggregatesFilter<"Feedback"> | string
   summary?: Prisma.StringWithAggregatesFilter<"Feedback"> | string
   focusAreas?: Prisma.JsonWithAggregatesFilter<"Feedback">
@@ -291,6 +339,9 @@ export type FeedbackScalarWhereWithAggregatesInput = {
 export type FeedbackCreateInput = {
   id?: string
   overallScore: number
+  technicalScore: number
+  communicationScore: number
+  problemSolvingScore: number
   summary: string
   focusAreas: Prisma.JsonNullValueInput | runtime.InputJsonValue
   nextStep: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -302,6 +353,9 @@ export type FeedbackCreateInput = {
 export type FeedbackUncheckedCreateInput = {
   id?: string
   overallScore: number
+  technicalScore: number
+  communicationScore: number
+  problemSolvingScore: number
   sessionId: string
   summary: string
   focusAreas: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -313,6 +367,9 @@ export type FeedbackUncheckedCreateInput = {
 export type FeedbackUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   overallScore?: Prisma.IntFieldUpdateOperationsInput | number
+  technicalScore?: Prisma.IntFieldUpdateOperationsInput | number
+  communicationScore?: Prisma.IntFieldUpdateOperationsInput | number
+  problemSolvingScore?: Prisma.IntFieldUpdateOperationsInput | number
   summary?: Prisma.StringFieldUpdateOperationsInput | string
   focusAreas?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   nextStep?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -324,6 +381,9 @@ export type FeedbackUpdateInput = {
 export type FeedbackUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   overallScore?: Prisma.IntFieldUpdateOperationsInput | number
+  technicalScore?: Prisma.IntFieldUpdateOperationsInput | number
+  communicationScore?: Prisma.IntFieldUpdateOperationsInput | number
+  problemSolvingScore?: Prisma.IntFieldUpdateOperationsInput | number
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
   summary?: Prisma.StringFieldUpdateOperationsInput | string
   focusAreas?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -335,6 +395,9 @@ export type FeedbackUncheckedUpdateInput = {
 export type FeedbackCreateManyInput = {
   id?: string
   overallScore: number
+  technicalScore: number
+  communicationScore: number
+  problemSolvingScore: number
   sessionId: string
   summary: string
   focusAreas: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -346,6 +409,9 @@ export type FeedbackCreateManyInput = {
 export type FeedbackUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   overallScore?: Prisma.IntFieldUpdateOperationsInput | number
+  technicalScore?: Prisma.IntFieldUpdateOperationsInput | number
+  communicationScore?: Prisma.IntFieldUpdateOperationsInput | number
+  problemSolvingScore?: Prisma.IntFieldUpdateOperationsInput | number
   summary?: Prisma.StringFieldUpdateOperationsInput | string
   focusAreas?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   nextStep?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -356,6 +422,9 @@ export type FeedbackUpdateManyMutationInput = {
 export type FeedbackUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   overallScore?: Prisma.IntFieldUpdateOperationsInput | number
+  technicalScore?: Prisma.IntFieldUpdateOperationsInput | number
+  communicationScore?: Prisma.IntFieldUpdateOperationsInput | number
+  problemSolvingScore?: Prisma.IntFieldUpdateOperationsInput | number
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
   summary?: Prisma.StringFieldUpdateOperationsInput | string
   focusAreas?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -372,6 +441,9 @@ export type FeedbackNullableScalarRelationFilter = {
 export type FeedbackCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   overallScore?: Prisma.SortOrder
+  technicalScore?: Prisma.SortOrder
+  communicationScore?: Prisma.SortOrder
+  problemSolvingScore?: Prisma.SortOrder
   sessionId?: Prisma.SortOrder
   summary?: Prisma.SortOrder
   focusAreas?: Prisma.SortOrder
@@ -382,11 +454,17 @@ export type FeedbackCountOrderByAggregateInput = {
 
 export type FeedbackAvgOrderByAggregateInput = {
   overallScore?: Prisma.SortOrder
+  technicalScore?: Prisma.SortOrder
+  communicationScore?: Prisma.SortOrder
+  problemSolvingScore?: Prisma.SortOrder
 }
 
 export type FeedbackMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   overallScore?: Prisma.SortOrder
+  technicalScore?: Prisma.SortOrder
+  communicationScore?: Prisma.SortOrder
+  problemSolvingScore?: Prisma.SortOrder
   sessionId?: Prisma.SortOrder
   summary?: Prisma.SortOrder
   verdict?: Prisma.SortOrder
@@ -395,6 +473,9 @@ export type FeedbackMaxOrderByAggregateInput = {
 export type FeedbackMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   overallScore?: Prisma.SortOrder
+  technicalScore?: Prisma.SortOrder
+  communicationScore?: Prisma.SortOrder
+  problemSolvingScore?: Prisma.SortOrder
   sessionId?: Prisma.SortOrder
   summary?: Prisma.SortOrder
   verdict?: Prisma.SortOrder
@@ -402,6 +483,9 @@ export type FeedbackMinOrderByAggregateInput = {
 
 export type FeedbackSumOrderByAggregateInput = {
   overallScore?: Prisma.SortOrder
+  technicalScore?: Prisma.SortOrder
+  communicationScore?: Prisma.SortOrder
+  problemSolvingScore?: Prisma.SortOrder
 }
 
 export type FeedbackCreateNestedOneWithoutSessionInput = {
@@ -439,6 +523,9 @@ export type FeedbackUncheckedUpdateOneWithoutSessionNestedInput = {
 export type FeedbackCreateWithoutSessionInput = {
   id?: string
   overallScore: number
+  technicalScore: number
+  communicationScore: number
+  problemSolvingScore: number
   summary: string
   focusAreas: Prisma.JsonNullValueInput | runtime.InputJsonValue
   nextStep: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -449,6 +536,9 @@ export type FeedbackCreateWithoutSessionInput = {
 export type FeedbackUncheckedCreateWithoutSessionInput = {
   id?: string
   overallScore: number
+  technicalScore: number
+  communicationScore: number
+  problemSolvingScore: number
   summary: string
   focusAreas: Prisma.JsonNullValueInput | runtime.InputJsonValue
   nextStep: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -475,6 +565,9 @@ export type FeedbackUpdateToOneWithWhereWithoutSessionInput = {
 export type FeedbackUpdateWithoutSessionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   overallScore?: Prisma.IntFieldUpdateOperationsInput | number
+  technicalScore?: Prisma.IntFieldUpdateOperationsInput | number
+  communicationScore?: Prisma.IntFieldUpdateOperationsInput | number
+  problemSolvingScore?: Prisma.IntFieldUpdateOperationsInput | number
   summary?: Prisma.StringFieldUpdateOperationsInput | string
   focusAreas?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   nextStep?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -485,6 +578,9 @@ export type FeedbackUpdateWithoutSessionInput = {
 export type FeedbackUncheckedUpdateWithoutSessionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   overallScore?: Prisma.IntFieldUpdateOperationsInput | number
+  technicalScore?: Prisma.IntFieldUpdateOperationsInput | number
+  communicationScore?: Prisma.IntFieldUpdateOperationsInput | number
+  problemSolvingScore?: Prisma.IntFieldUpdateOperationsInput | number
   summary?: Prisma.StringFieldUpdateOperationsInput | string
   focusAreas?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   nextStep?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -497,6 +593,9 @@ export type FeedbackUncheckedUpdateWithoutSessionInput = {
 export type FeedbackSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   overallScore?: boolean
+  technicalScore?: boolean
+  communicationScore?: boolean
+  problemSolvingScore?: boolean
   sessionId?: boolean
   summary?: boolean
   focusAreas?: boolean
@@ -509,6 +608,9 @@ export type FeedbackSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type FeedbackSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   overallScore?: boolean
+  technicalScore?: boolean
+  communicationScore?: boolean
+  problemSolvingScore?: boolean
   sessionId?: boolean
   summary?: boolean
   focusAreas?: boolean
@@ -521,6 +623,9 @@ export type FeedbackSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type FeedbackSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   overallScore?: boolean
+  technicalScore?: boolean
+  communicationScore?: boolean
+  problemSolvingScore?: boolean
   sessionId?: boolean
   summary?: boolean
   focusAreas?: boolean
@@ -533,6 +638,9 @@ export type FeedbackSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type FeedbackSelectScalar = {
   id?: boolean
   overallScore?: boolean
+  technicalScore?: boolean
+  communicationScore?: boolean
+  problemSolvingScore?: boolean
   sessionId?: boolean
   summary?: boolean
   focusAreas?: boolean
@@ -541,7 +649,7 @@ export type FeedbackSelectScalar = {
   verdict?: boolean
 }
 
-export type FeedbackOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "overallScore" | "sessionId" | "summary" | "focusAreas" | "nextStep" | "strengths" | "verdict", ExtArgs["result"]["feedback"]>
+export type FeedbackOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "overallScore" | "technicalScore" | "communicationScore" | "problemSolvingScore" | "sessionId" | "summary" | "focusAreas" | "nextStep" | "strengths" | "verdict", ExtArgs["result"]["feedback"]>
 export type FeedbackInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   session?: boolean | Prisma.SessionDefaultArgs<ExtArgs>
 }
@@ -560,6 +668,9 @@ export type $FeedbackPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     overallScore: number
+    technicalScore: number
+    communicationScore: number
+    problemSolvingScore: number
     sessionId: string
     summary: string
     focusAreas: runtime.JsonValue
@@ -992,6 +1103,9 @@ export interface Prisma__FeedbackClient<T, Null = never, ExtArgs extends runtime
 export interface FeedbackFieldRefs {
   readonly id: Prisma.FieldRef<"Feedback", 'String'>
   readonly overallScore: Prisma.FieldRef<"Feedback", 'Int'>
+  readonly technicalScore: Prisma.FieldRef<"Feedback", 'Int'>
+  readonly communicationScore: Prisma.FieldRef<"Feedback", 'Int'>
+  readonly problemSolvingScore: Prisma.FieldRef<"Feedback", 'Int'>
   readonly sessionId: Prisma.FieldRef<"Feedback", 'String'>
   readonly summary: Prisma.FieldRef<"Feedback", 'String'>
   readonly focusAreas: Prisma.FieldRef<"Feedback", 'Json'>

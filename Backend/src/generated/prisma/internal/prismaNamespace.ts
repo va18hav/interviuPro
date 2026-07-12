@@ -960,6 +960,9 @@ export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeo
 export const FeedbackScalarFieldEnum = {
   id: 'id',
   overallScore: 'overallScore',
+  technicalScore: 'technicalScore',
+  communicationScore: 'communicationScore',
+  problemSolvingScore: 'problemSolvingScore',
   sessionId: 'sessionId',
   summary: 'summary',
   focusAreas: 'focusAreas',

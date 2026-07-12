@@ -33,6 +33,9 @@ Return your feedback as a single valid JSON object. No preamble, no explanation,
 
 {
   "overallScore": number,
+  "technicalScore": number,
+  "communicationScore": number,
+  "problemSolvingScore": number,
   "verdict": string,
   "summary": string,
   "strengths": string[],
@@ -53,9 +56,24 @@ FIELD DEFINITIONS & RULES
 overallScore
   - Type: number
   - Range: 0 to 100
-  - Weighted assessment across technical depth, problem solving, communication, and production awareness
+  - Weighted assessment across all dimensions (technical, communication, problem solving)
   - Do NOT cluster scores around 70–75 out of politeness. Use the full range honestly.
   - Round to the nearest integer
+
+technicalScore
+  - Type: number
+  - Range: 0 to 100
+  - Evaluation of technical depth, correctness, accuracy of explanations, and framework/language proficiency.
+
+communicationScore
+  - Type: number
+  - Range: 0 to 100
+  - Evaluation of clarity of expression, structured thinking, response timing, and ability to explain complex concepts simply.
+
+problemSolvingScore
+  - Type: number
+  - Range: 0 to 100
+  - Evaluation of analytical approach, handling follow-up probes, debugging, and architectural trade-off evaluations.
 
 verdict
   - Type: string
