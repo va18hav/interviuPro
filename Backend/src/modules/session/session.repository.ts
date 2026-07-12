@@ -50,6 +50,9 @@ export const getSession = async (sessionId: string) => {
             feedback: {
                 select: {
                     overallScore: true,
+                    technicalScore: true,
+                    communicationScore: true,
+                    problemSolvingScore: true,
                     verdict: true,
                     summary: true,
                     strengths: true,

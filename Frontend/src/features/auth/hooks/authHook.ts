@@ -1,13 +1,15 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import * as authService from '../services/authService'
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export const useRegister = () => {
     const navigate = useNavigate()
+    const queryClient = useQueryClient()
     const { mutate, isPending, isSuccess } = useMutation({
         mutationFn: authService.register,
         onSuccess: () => {
+            queryClient.clear()
             navigate('/verify-email')
         },
         onError: (err) => {
@@ -22,9 +24,11 @@ export const useRegister = () => {
 }
 
 export const useVerifyEmail = () => {
+    const queryClient = useQueryClient()
     const { mutate, isPending, isSuccess } = useMutation({
         mutationFn: authService.verifyEmail,
         onSuccess: () => {
+            queryClient.clear()
             toast.success('OTP verified successfully')
         },
         onError: (err) => {
@@ -70,9 +74,11 @@ export const useGetUser = () => {
 
 export const useLogin = () => {
     const navigate = useNavigate()
+    const queryClient = useQueryClient()
     const { mutate, isPending, isSuccess } = useMutation({
         mutationFn: authService.login,
         onSuccess: () => {
+            queryClient.clear()
             navigate('/dashboard')
         },
         onError: (err) => {
@@ -88,9 +94,11 @@ export const useLogin = () => {
 
 export const useLogout = () => {
     const navigate = useNavigate()
+    const queryClient = useQueryClient()
     const { mutate, isPending } = useMutation({
         mutationFn: authService.logout,
         onSuccess: (message: string) => {
+            queryClient.clear()
             navigate('/')
             toast.success(message)
         },
@@ -102,5 +110,26 @@ export const useLogout = () => {
     return {
         logout: mutate,
         loggingOut: isPending
+    }
+}
+
+export const useGoogleLogin = () => {
+    const navigate = useNavigate()
+    const queryClient = useQueryClient()
+    const { mutate, isPending, isSuccess } = useMutation({
+        mutationFn: authService.loginWithGoogle,
+        onSuccess: () => {
+            queryClient.clear()
+            toast.success('Logged in successfully with Google')
+            navigate('/dashboard')
+        },
+        onError: (err: any) => {
+            toast.error(err.response?.data?.message || err.message || 'Google sign-in failed')
+        }
+    })
+    return {
+        googleLogin: mutate,
+        googleLoginPending: isPending,
+        googleLoginSuccess: isSuccess
     }
 }

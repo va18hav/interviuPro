@@ -15,6 +15,16 @@ export const createUser = async (data: { email: string, hashedPassword: string }
     })
 }
 
+export const createGoogleUser = async (data: { email: string, hashedPassword: string }) => {
+    return await prisma.user.create({
+        data: {
+            email: data.email,
+            hashedPassword: data.hashedPassword,
+            isEmailVerified: true
+        },
+    })
+}
+
 export const verifyEmail = async (userId: string) => {
     return await prisma.user.update({
         where: { id: userId },

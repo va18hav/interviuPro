@@ -1,17 +1,40 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowRight, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import InfoPanel from '../components/InfoPanel';
 import 'boxicons/css/boxicons.min.css';
-import { useLogin, useRegister } from '../hooks/authHook';
+import { useLogin, useRegister, useGoogleLogin } from '../hooks/authHook';
 
 export default function Login() {
   const { login, loginPending, loginSuccess } = useLogin()
   const { register, registerPending, registerSuccess } = useRegister()
-  const isPending = loginPending || registerPending
+  const { googleLogin, googleLoginPending } = useGoogleLogin()
+  const isPending = loginPending || registerPending || googleLoginPending
   const [tab, setTab] = useState('login');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+
+  useEffect(() => {
+    /* global google */
+    if (typeof window !== 'undefined' && (window as any).google) {
+      (window as any).google.accounts.id.initialize({
+        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+        callback: (response: any) => {
+          googleLogin(response.credential);
+        },
+      });
+
+      (window as any).google.accounts.id.renderButton(
+        document.getElementById("googleSignInButton"),
+        { 
+          theme: "outline", 
+          size: "large", 
+          width: 384,
+          text: "continue_with"
+        }
+      );
+    }
+  }, [googleLogin]);
 
   const auth = async () => {
     // Authentication logic will go here
@@ -120,14 +143,10 @@ export default function Login() {
             <div className="flex-grow border-t border-gray-800"></div>
           </div>
 
-          {/* Google Auth */}
-          <button
-            type="button"
-            className="w-full bg-transparent border border-gray-700 hover:border-gray-500 text-white font-medium py-3 rounded text-sm transition-colors flex justify-center items-center gap-3"
-          >
-            <i className='bx bxl-google text-lg'></i>
-            Continue with Google
-          </button>
+          {/* Google Auth Container */}
+          <div className="w-full flex justify-center">
+            <div id="googleSignInButton" className="w-full flex justify-center"></div>
+          </div>
 
         </div>
 

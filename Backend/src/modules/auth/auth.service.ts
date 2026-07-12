@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
+import { OAuth2Client } from 'google-auth-library'
 import * as authRepository from './auth.repository'
 import { RegisterUserInput, LoginUserInput } from './auth.types'
 import { AppError } from '../../utils/appError'
@@ -94,6 +95,51 @@ export const resetPassword = async (userId: string, password: string) => {
     }
     const hashedPassword = await bcrypt.hash(password, 10)
     return await authRepository.resetPassword(userId, hashedPassword)
+}
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
+
+export const googleAuth = async (idToken: string) => {
+    const ticket = await client.verifyIdToken({
+        idToken,
+        audience: process.env.GOOGLE_CLIENT_ID
+    })
+    const payload = ticket.getPayload()
+    if (!payload || !payload.email) {
+        throw new AppError(400, 'Invalid Google token')
+    }
+
+    const { email } = payload
+
+    let user = await authRepository.findUserByEmail(email)
+
+    if (!user) {
+        // Register a new user with isEmailVerified: true
+        // Set their hashedPassword to a secure, random placeholder hash (impossible to guess)
+        const randomPassword = `GOOGLE_OAUTH_ACCOUNT_${crypto.randomUUID()}`
+        const hashedPassword = await bcrypt.hash(randomPassword, 10)
+        user = await authRepository.createGoogleUser({
+            email,
+            hashedPassword
+        })
+    }
+
+    const token = jwt.sign(
+        { userId: user.id, isEmailVerified: user.isEmailVerified },
+        process.env.JWT_SECRET!,
+        { expiresIn: '7d' }
+    )
+
+    return {
+        user: {
+            id: user.id,
+            email: user.email,
+            isEmailVerified: user.isEmailVerified,
+            onboarding_step1: user.onboarding_step1,
+            onboarding_step2: user.onboarding_step2
+        },
+        token
+    }
 }
 
 

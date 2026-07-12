@@ -1,5 +1,4 @@
 import type { CreateInterviewContext } from "./interview.types"
-import { systemPrompt } from "../../aiUtils/geminiAI/prompts"
 import * as interviewRepository from './interview.repository'
 import crypto, { randomUUID } from 'crypto'
 import { findUserById, findUserProfile } from "../../utils/dbservices"

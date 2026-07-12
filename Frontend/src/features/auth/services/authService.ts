@@ -35,3 +35,8 @@ export const logout = async () => {
     const response = await apiClient.post<LogoutResponse>('/auth/logout')
     return response.data.message
 }
+
+export const loginWithGoogle = async (token: string) => {
+    const response = await apiClient.post<AuthResponseAPI>('/auth/google', { token })
+    return response.data.data
+}

@@ -1,14 +1,14 @@
 import { setupGeminiConnection } from "../../aiUtils/geminiAI/gemini.service"
-import { systemPrompt } from "../../aiUtils/geminiAI/prompts"
+import { technicalRoundPrompt, behavioralRoundPrompt, designRoundPrompt } from "../../aiUtils/geminiAI/prompts"
 import { AppError } from "../../utils/appError"
 import { findUserProfile, getResume } from "../../utils/dbservices"
 import { fetchInterview } from "../interview/interview.repository"
 import { cleanupSession, sessions } from "./session"
 import { cacheInterviewContext, cacheSession, getCacheHistory, getCacheInterviewContext, getCacheSession } from "./session.redis"
 import * as sessionRepository from './session.repository'
-import { ClientResponse } from "./session.types"
+import { ClientResponse, RoundType } from "./session.types"
 
-export const startInterview = async (interviewId: string, userId: string, type: string, duration: number) => {
+export const startInterview = async (interviewId: string, userId: string, type: RoundType, duration: number) => {
     const context = await fetchInterview(interviewId)
     if (!context) throw new AppError(400, 'Interview not found')
     const resume = await getResume(userId)
@@ -20,7 +20,18 @@ export const startInterview = async (interviewId: string, userId: string, type: 
         throw new AppError(400, 'Resume not found')
         return
     }
-    const prompt = systemPrompt(context, resume.resumeText)
+    
+    let prompt = ''
+    if (type === RoundType.TECHNICAL_CODING) {
+        prompt = technicalRoundPrompt(context, resume.resumeText)
+    } else if (type === RoundType.SYSTEM_DESIGN) {
+        prompt = designRoundPrompt(context, resume.resumeText)
+    } else if (type === RoundType.BEHAVIORAL) {
+        prompt = behavioralRoundPrompt(context, resume.resumeText)
+    } else {
+        throw new AppError(400, 'Invalid round type')
+    }
+
     const sessionId = crypto.randomUUID()
     const data = {
         sessionId,

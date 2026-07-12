@@ -39,3 +39,10 @@ export interface ConversationEntry {
 }
 
 export type ConversationHistory = ConversationEntry[]
+
+export enum RoundType {
+    TECHNICAL_CODING = 'Technical/Coding',
+    SYSTEM_DESIGN = 'System Design',
+    BEHAVIORAL = 'Behavioral'
+}
+
