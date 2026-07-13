@@ -23,6 +23,7 @@ export const fetchInterview = async (req: Request, res: Response) => {
             title: interview?.title
         }
     })
+
 }
 
 export const fetchAllInterviews = async (req: Request, res: Response) => {

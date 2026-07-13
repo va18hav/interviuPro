@@ -34,7 +34,11 @@ export const setupGeminiConnection = async (sessionId: string, systemPrompt: str
     const proxySession = {
         sendRealtimeInput: (inputData: string | object) => {
             if (isReconnecting) {
-                audioBuffer.push(inputData)
+                // Only buffer audio during reconnect — code text updates during
+                // reconnect are skipped (stale snapshots are harmless to miss)
+                if ((inputData as any).audio) {
+                    audioBuffer.push(inputData)
+                }
             }
             else if (currentGeminiSession) {
                 currentGeminiSession.sendRealtimeInput(inputData)
