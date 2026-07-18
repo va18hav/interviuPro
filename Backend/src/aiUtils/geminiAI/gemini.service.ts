@@ -15,6 +15,7 @@ export const setupGeminiConnection = async (sessionId: string, systemPrompt: str
     let audioBuffer: any[] = []
     let isReconnecting = false
     let isDurationUp = false
+    let isSessionEnded = false
     let resumeHandle: string | null = null
 
     const userSession = sessions.get(sessionId)
@@ -45,6 +46,7 @@ export const setupGeminiConnection = async (sessionId: string, systemPrompt: str
             }
         },
         close: () => {
+            isSessionEnded = true
             if (cacheSession) {
                 if (cacheSession?.duration <= (cacheSession?.elapsedSeconds) / 60) isDurationUp = true
             }
@@ -158,6 +160,11 @@ export const setupGeminiConnection = async (sessionId: string, systemPrompt: str
                 onclose: (e: any) => {
                     console.log('Gemini Connection Closed:', e.reason)
                     const MAX_RETRIES = 5
+
+                    if (isSessionEnded) {
+                        console.log('Session ended intentionally, skipping Gemini resumption.')
+                        return
+                    }
 
                     if (!isUserConnected()) {
                         console.log('Session ended beacuse user disconnected')
