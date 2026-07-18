@@ -11,12 +11,14 @@ import Interviews from "../features/history/interviews/pages/Interviews"
 import Interview from "../features/history/interview/pages/Interview"
 import Result from "../features/history/session/pages/Session";
 import Profile from "../features/profile/pages/Profile";
+import Landing from "../features/landing/pages/Landing";
 
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
-      <Route index element={<Login />} />
+      <Route index element={<Landing />} />
+      <Route path="login" element={<Login />} />
       <Route path="verify-email" element={<VerifyEmail />} />
       <Route path="onboarding" element={<Onboarding />} />
       <Route element={<AppLayout />}>
