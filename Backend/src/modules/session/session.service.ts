@@ -23,9 +23,7 @@ export const startInterview = async (interviewId: string, userId: string, type: 
 
     let prompt = ''
     if (type === RoundType.TECHNICAL_CODING) {
-        // prompt = technicalRoundPrompt(context, resume.resumeText)
-        // ↑ PRODUCTION — swap for line below to test the editor pipeline:
-        prompt = testCodingRoundPrompt()
+        prompt = technicalRoundPrompt(context, resume.resumeText)
     } else if (type === RoundType.SYSTEM_DESIGN) {
         prompt = designRoundPrompt(context, resume.resumeText)
     } else if (type === RoundType.BEHAVIORAL) {
