@@ -5,8 +5,19 @@ import { connectToSocket } from "../services/websocket"
 import { SessionContext } from "./SessionContext"
 import { useGenerateFeedback } from "../hooks/generateFeedback"
 import { useNavigate } from "react-router-dom"
+import { RoundType } from "../types/session.types"
 
-export const SessionProvider = ({ children, interviewId, sessionId }: { children: ReactNode, interviewId: string, sessionId: string }) => {
+export const SessionProvider = ({
+    children,
+    interviewId,
+    sessionId,
+    roundType
+}: {
+    children: ReactNode
+    interviewId: string
+    sessionId: string
+    roundType: RoundType | null
+}) => {
     const navigate = useNavigate()
     const { generateFeedback } = useGenerateFeedback()
 
@@ -23,21 +34,27 @@ export const SessionProvider = ({ children, interviewId, sessionId }: { children
     const [micON, setMicON] = useState(true)
     const silenceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
+    // Sends the current editor code to the backend on every debounced change
+    const sendCodeUpdate = (code: string, language: string) => {
+        if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+            socketRef.current.send(JSON.stringify({
+                type: 'candidate_code',
+                code,
+                language
+            }))
+        }
+    }
+
     const endSession = () => {
         if (hasEndedRef.current || isAbandonedRef.current) return
         hasEndedRef.current = true
         if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
-            socketRef.current.send(JSON.stringify({
-                type: 'end_interview'
-            }))
+            socketRef.current.send(JSON.stringify({ type: 'end_interview' }))
         }
         stopRecording()
         stopPlayer()
         setGeneratingFeedback(true)
-        generateFeedback({
-            interviewId,
-            sessionId
-        })
+        generateFeedback({ interviewId, sessionId })
     }
 
     const abandonSession = () => {
@@ -52,8 +69,7 @@ export const SessionProvider = ({ children, interviewId, sessionId }: { children
         const newLength = aiMessage.length + message.length
         if (newLength > 200) {
             setAiMessage('')
-        }
-        else {
+        } else {
             setAiMessage(prev => prev + message)
         }
     }
@@ -61,8 +77,8 @@ export const SessionProvider = ({ children, interviewId, sessionId }: { children
     const handleAudioChunk = (audioChunk: string, isSpeaking: boolean) => {
         if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
             if (isSpeaking) {
-                setAiSpeaking(false) // User speech interrupts AI
-                setAiMessage('') // Clear transcript when user speaks
+                setAiSpeaking(false)
+                setAiMessage('')
                 if (silenceTimeoutRef.current) {
                     clearTimeout(silenceTimeoutRef.current)
                     silenceTimeoutRef.current = null
@@ -76,7 +92,6 @@ export const SessionProvider = ({ children, interviewId, sessionId }: { children
                     }, 1000)
                 }
             }
-
             socketRef.current.send(JSON.stringify({
                 type: 'candidate_audio',
                 data: audioChunk
@@ -97,19 +112,13 @@ export const SessionProvider = ({ children, interviewId, sessionId }: { children
 
     // Active frontend countdown timer synced with backend duration
     useEffect(() => {
-        if (remainingSeconds === null || remainingSeconds <= 0 || generatingFeedback) {
-            return
-        }
-
+        if (remainingSeconds === null || remainingSeconds <= 0 || generatingFeedback) return
         const intervalId = setInterval(() => {
             setRemainingSeconds(prev => {
-                if (prev !== null && prev > 0) {
-                    return prev - 1
-                }
+                if (prev !== null && prev > 0) return prev - 1
                 return prev
             })
         }, 1000)
-
         return () => clearInterval(intervalId)
     }, [remainingSeconds === null, generatingFeedback])
 
@@ -122,9 +131,7 @@ export const SessionProvider = ({ children, interviewId, sessionId }: { children
         })
 
         socket.onopen = () => {
-            socket.send(JSON.stringify({
-                type: 'start_interview'
-            }))
+            socket.send(JSON.stringify({ type: 'start_interview' }))
         }
 
         socket.onmessage = (event) => {
@@ -135,25 +142,22 @@ export const SessionProvider = ({ children, interviewId, sessionId }: { children
                     setUserSpeaking(false)
                     setAiSpeaking(true)
                     playChunkRef.current?.(message.audio)
-                    break;
+                    break
                 case 'ai-chunk':
                     flushTranscript(message.text)
-                    break;
+                    break
                 case 'timer-info':
                     setRemainingSeconds(message.data)
-                    break;
+                    break
             }
         }
 
         startRecording(handleAudioChunk)
 
         return () => {
-            if (silenceTimeoutRef.current) {
-                clearTimeout(silenceTimeoutRef.current)
-            }
+            if (silenceTimeoutRef.current) clearTimeout(silenceTimeoutRef.current)
             endSession()
         }
-
     }, [sessionId])
 
     const value = {
@@ -166,8 +170,11 @@ export const SessionProvider = ({ children, interviewId, sessionId }: { children
         toggleMic,
         aiSpeaking,
         userSpeaking,
-        isInitializing
+        isInitializing,
+        sendCodeUpdate,
+        roundType
     }
+
     return (
         <SessionContext.Provider value={value}>
             {children}

@@ -22,10 +22,24 @@ export const handleMessage = async (sessionId: string, message: ClientResponse, 
             return sessionService.setupGemini(sessionId, userId)
         case 'candidate_audio':
             return sessionService.processCandidateMessage(sessionId, message)
+        case 'candidate_code':
+            return sessionService.processCandidateMessage(sessionId, message)
         case 'end_interview':
             return sessionService.endInterview(sessionId)
     }
 }
+
+
+export const getSessionMeta = async (req: Request, res: Response) => {
+    const sessionId = req.params.sessionId as string
+    const data = await sessionService.getSessionMeta(sessionId)
+    res.status(200).json({
+        success: true,
+        message: 'Session meta fetched successfully',
+        data
+    })
+}
+
 
 export const getAllSessions = async (req: Request, res: Response) => {
     const userId = req.userId as string

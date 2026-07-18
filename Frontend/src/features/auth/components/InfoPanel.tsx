@@ -6,9 +6,10 @@ const InfoPanel = ({ className = '' }: { className?: string }) => {
     border-gray-800/50 relative overflow-hidden transition-all duration-[600ms] 
     cubic-beizer(0.16, 1, 0.3, 1) ${className}`}>
       {/* Top Logo */}
-      <div>
+      <div className="flex items-center gap-3 select-none">
+        <img src="/logo.png" alt="Interviu Logo" className="h-10 w-auto" />
         <h2 className="text-2xl font-bold tracking-tight">
-          Interviu<span className="text-[#00E599]">.</span>
+          Interv<span className="text-[#00E599]">i</span>u
         </h2>
       </div>
 

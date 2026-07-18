@@ -1,4 +1,5 @@
 import { createContext, useContext } from "react"
+import { RoundType } from "../types/session.types"
 
 export interface SessionContextType {
     remainingSeconds: number | null
@@ -11,6 +12,8 @@ export interface SessionContextType {
     aiSpeaking: boolean
     userSpeaking: boolean
     isInitializing: boolean
+    sendCodeUpdate: (code: string, language: string) => void
+    roundType: RoundType | null
 }
 
 export const SessionContext = createContext<SessionContextType | undefined>(undefined)
@@ -22,3 +25,4 @@ export const useSession = () => {
     }
     return context
 }
+

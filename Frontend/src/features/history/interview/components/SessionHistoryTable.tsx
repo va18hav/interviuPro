@@ -1,4 +1,4 @@
-import { Filter, GitBranch, Code, MessageSquare, LucideIcon } from 'lucide-react';
+import { Filter, Network, Code, MessageSquare, LucideIcon } from 'lucide-react';
 import { SessionHistoryData } from '../types/interviewData.types';
 
 interface SessionHistoryTableProps {
@@ -7,7 +7,7 @@ interface SessionHistoryTableProps {
 
 const getSessionIcon = (type: string): LucideIcon => {
   const t = type.toLowerCase();
-  if (t.includes('system')) return GitBranch;
+  if (t.includes('system') || t.includes('design')) return Network;
   if (t.includes('coding') || t.includes('technical')) return Code;
   return MessageSquare;
 };
@@ -46,68 +46,122 @@ export default function SessionHistoryTable({ sessions }: SessionHistoryTablePro
         </button>
       </div>
 
-      {/* Table Container */}
-      <div className="overflow-x-auto w-full">
-        {sessions.length > 0 ? (
-          <table className="w-full text-left border-collapse min-w-[600px]">
-            <thead>
-              <tr className="border-b border-gray-800 text-[14px] font-bold text-gray-500 uppercase tracking-widest">
-                <th className="pb-3 font-semibold">Round Type</th>
-                <th className="pb-3 font-semibold">Date</th>
-                <th className="pb-3 font-semibold">Duration</th>
-                <th className="pb-3 font-semibold text-center">Score</th>
-                <th className="pb-3 font-semibold text-right">Verdict</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-800/50">
-              {sessions.map((session) => {
-                const Icon = getSessionIcon(session.type);
-                const score = session.feedback?.overallScore;
-                const verdict = session.feedback?.verdict;
+      {/* Table/Card Container */}
+      <div className="w-full">
+        {/* Mobile/Tablet Card Layout */}
+        <div className="md:hidden space-y-4">
+          {sessions.length > 0 ? (
+            sessions.map((session) => {
+              const Icon = getSessionIcon(session.type);
+              const score = session.feedback?.overallScore;
+              const verdict = session.feedback?.verdict;
 
-                return (
-                  <tr key={session.id} className="group hover:bg-[#181d2c]/20 transition-all">
-                    {/* Round Type */}
-                    <td className="py-4 pr-4">
-                      <div className="flex items-center gap-3">
-                        <div className="flex items-center justify-center w-8 h-8 rounded-lg border border-gray-800/80 bg-[#181d2c]/50 text-gray-400 group-hover:text-[#00E599] transition-colors">
-                          <Icon size={14} />
-                        </div>
-                        <span className="text-[12px] font-semibold text-white group-hover:text-[#00E599] transition-colors">
-                          {session.type}
-                        </span>
+              return (
+                <div
+                  key={session.id}
+                  className="p-4 rounded-xl border border-gray-800/80 bg-[#111623]/30 space-y-3"
+                >
+                  {/* Round Type & Score */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-center justify-center w-8 h-8 rounded-lg border border-gray-800 bg-[#181d2c]/50 text-gray-400">
+                        <Icon size={14} />
                       </div>
-                    </td>
-                    {/* Date */}
-                    <td className="py-4 text-[12px] font-medium text-gray-400 font-mono">
-                      {formatDate(session.startedAt)}
-                    </td>
-                    {/* Duration */}
-                    <td className="py-4 text-[12px] font-medium text-gray-400 font-mono">
-                      {session.duration}m
-                    </td>
-                    {/* Score */}
-                    <td className="py-4 text-[12px] font-bold text-center font-mono text-[#00E599]">
+                      <span className="text-xs font-semibold text-white">
+                        {session.type}
+                      </span>
+                    </div>
+                    <span className="text-xs font-bold text-[#00E599] font-mono">
                       {score !== undefined && score !== null ? `${score}/100` : '—'}
-                    </td>
-                    {/* Verdict */}
-                    <td className="py-4 text-right">
-                      <div className="inline-block min-w-[110px]">
-                        <span className={`px-2.5 py-1 text-[10px] font-bold tracking-wider rounded border uppercase text-center block ${getVerdictStyles(verdict)}`}>
-                          {verdict || 'No Feedback'}
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        ) : (
-          <div className="text-center py-8 text-sm text-gray-500 font-medium">
-            No sessions practiced yet.
-          </div>
-        )}
+                    </span>
+                  </div>
+
+                  {/* Date & Duration */}
+                  <div className="flex items-center gap-4 text-[11px] text-gray-505 font-mono">
+                    <div>Date: {formatDate(session.startedAt)}</div>
+                    <div>Duration: {session.duration}m</div>
+                  </div>
+
+                  {/* Verdict */}
+                  <div className="border-t border-gray-800/40 pt-2 flex items-center justify-between">
+                    <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Verdict</span>
+                    <span className={`px-2.5 py-0.5 text-[9px] font-bold tracking-wider rounded border uppercase ${getVerdictStyles(verdict)}`}>
+                      {verdict || 'No Feedback'}
+                    </span>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div className="text-center py-8 text-sm text-gray-550 font-medium">
+              No sessions practiced yet.
+            </div>
+          )}
+        </div>
+
+        {/* Desktop Table Layout */}
+        <div className="hidden md:block overflow-x-auto w-full">
+          {sessions.length > 0 ? (
+            <table className="w-full text-left border-collapse min-w-[600px]">
+              <thead>
+                <tr className="border-b border-gray-800 text-[14px] font-bold text-gray-500 uppercase tracking-widest">
+                  <th className="pb-3 font-semibold">Round Type</th>
+                  <th className="pb-3 font-semibold">Date</th>
+                  <th className="pb-3 font-semibold">Duration</th>
+                  <th className="pb-3 font-semibold text-center">Score</th>
+                  <th className="pb-3 font-semibold text-right">Verdict</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-800/50">
+                {sessions.map((session) => {
+                  const Icon = getSessionIcon(session.type);
+                  const score = session.feedback?.overallScore;
+                  const verdict = session.feedback?.verdict;
+
+                  return (
+                    <tr key={session.id} className="group hover:bg-[#181d2c]/20 transition-all">
+                      {/* Round Type */}
+                      <td className="py-4 pr-4">
+                        <div className="flex items-center gap-3">
+                          <div className="flex items-center justify-center w-8 h-8 rounded-lg border border-gray-800/80 bg-[#181d2c]/50 text-gray-400 group-hover:text-[#00E599] transition-colors">
+                            <Icon size={14} />
+                          </div>
+                          <span className="text-[12px] font-semibold text-white group-hover:text-[#00E599] transition-colors">
+                            {session.type}
+                          </span>
+                        </div>
+                      </td>
+                      {/* Date */}
+                      <td className="py-4 text-[12px] font-medium text-gray-400 font-mono">
+                        {formatDate(session.startedAt)}
+                      </td>
+                      {/* Duration */}
+                      <td className="py-4 text-[12px] font-medium text-gray-400 font-mono">
+                        {session.duration}m
+                      </td>
+                      {/* Score */}
+                      <td className="py-4 text-[12px] font-bold text-center font-mono text-[#00E599]">
+                        {score !== undefined && score !== null ? `${score}/100` : '—'}
+                      </td>
+                      {/* Verdict */}
+                      <td className="py-4 text-right">
+                        <div className="inline-block min-w-[110px]">
+                          <span className={`px-2.5 py-1 text-[10px] font-bold tracking-wider rounded border uppercase text-center block ${getVerdictStyles(verdict)}`}>
+                            {verdict || 'No Feedback'}
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          ) : (
+            <div className="text-center py-8 text-sm text-gray-500 font-medium">
+              No sessions practiced yet.
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

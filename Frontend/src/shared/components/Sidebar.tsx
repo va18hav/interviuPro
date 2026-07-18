@@ -21,13 +21,11 @@ export default function Sidebar() {
       {/* Top Section */}
       <div>
         {/* Logo */}
-        <div className="p-6 mb-4">
+        <div className="p-6 mb-4 flex items-center gap-3 select-none">
+          <img src="/logo.png" alt="Interviu Logo" className="h-10 w-auto" />
           <h2 className="text-xl font-bold tracking-tight text-white font-inter">
-            Interviu<span className="text-[#00E599]">.</span>
+            Interv<span className="text-[#00E599]">i</span>u
           </h2>
-          <p className="text-[10px] text-gray-400 font-medium tracking-widest mt-1 uppercase">
-            Voice AI
-          </p>
         </div>
 
         {/* Navigation */}
@@ -50,38 +48,45 @@ export default function Sidebar() {
       </div>
 
       {/* Bottom Section - Profile & Logout */}
-      <div className="p-6 space-y-4">
+      <div className="p-6 border-t border-gray-800/50 bg-[#0d111b]/20">
         {loadingProfileData ? (
-          <div className="flex items-center justify-between border border-gray-800 bg-[#111623]/40 rounded-lg p-3 animate-pulse">
-            <div className="h-4 bg-gray-800 rounded w-24"></div>
-            <div className="w-8 h-8 rounded-full bg-gray-800"></div>
+          <div className="flex items-center justify-between animate-pulse">
+            <div className="w-8 h-8 rounded-full bg-gray-850"></div>
+            <div className="flex-1 ml-3 space-y-1.5">
+              <div className="h-3 bg-gray-850 rounded w-20"></div>
+              <div className="h-2 bg-gray-850 rounded w-10"></div>
+            </div>
+            <div className="w-14 h-6 bg-gray-850 rounded-full"></div>
           </div>
         ) : (
-          <div className="flex items-center justify-between border border-gray-800 bg-[#111623] rounded-lg p-3 cursor-pointer hover:border-gray-700 transition-colors">
-            <span className="text-xs font-bold text-white truncate max-w-[140px]">
-              {firstName} {lastName}
-            </span>
-            <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-[#00E599] to-blue-500 border border-gray-700 flex items-center justify-center text-[10px] font-black text-white uppercase select-none">
+          <div className="flex items-center gap-3">
+            {/* Avatar */}
+            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#00E599] to-blue-500 border border-gray-700 flex items-center justify-center text-[10px] font-black text-white uppercase select-none shrink-0">
               {initials || '?'}
             </div>
+            {/* Name and Plan */}
+            <div className="flex-1 min-w-0 flex flex-col items-start text-left">
+              <span className="text-xs font-semibold text-white truncate w-full">
+                {firstName} {lastName}
+              </span>
+              <span className="text-[10px] text-gray-500 font-medium mt-0.5">
+                Free
+              </span>
+            </div>
+            {/* Premium Logout Button */}
+            <button
+              onClick={() => logout()}
+              disabled={loggingOut}
+              className="px-3 py-1 rounded-full border border-gray-800 hover:border-[#00E599]/30 bg-transparent hover:bg-rose-500/10 hover:text-rose-400 text-[10px] font-bold text-gray-400 transition-all duration-300 shrink-0 disabled:opacity-50"
+            >
+              {loggingOut ? (
+                <Loader2 size={10} className="animate-spin" />
+              ) : (
+                'Logout'
+              )}
+            </button>
           </div>
         )}
-
-        {/* Logout Button */}
-        <button
-          onClick={() => logout()}
-          disabled={loggingOut}
-          className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-md border border-rose-500/20 bg-rose-500/5 hover:bg-rose-500/10 text-[10px] font-black tracking-widest text-rose-400 hover:text-rose-300 uppercase transition-all duration-300 disabled:opacity-50"
-        >
-          {loggingOut ? (
-            <>
-              <Loader2 size={12} className="animate-spin" />
-              <span>Logging Out...</span>
-            </>
-          ) : (
-            <span>Logout</span>
-          )}
-        </button>
       </div>
     </aside>
   );

@@ -1,5 +1,5 @@
 import { setupGeminiConnection } from "../../aiUtils/geminiAI/gemini.service"
-import { technicalRoundPrompt, behavioralRoundPrompt, designRoundPrompt } from "../../aiUtils/geminiAI/prompts"
+import { technicalRoundPrompt, behavioralRoundPrompt, designRoundPrompt, testCodingRoundPrompt } from "../../aiUtils/geminiAI/prompts"
 import { AppError } from "../../utils/appError"
 import { findUserProfile, getResume } from "../../utils/dbservices"
 import { fetchInterview } from "../interview/interview.repository"
@@ -20,10 +20,12 @@ export const startInterview = async (interviewId: string, userId: string, type: 
         throw new AppError(400, 'Resume not found')
         return
     }
-    
+
     let prompt = ''
     if (type === RoundType.TECHNICAL_CODING) {
-        prompt = technicalRoundPrompt(context, resume.resumeText)
+        // prompt = technicalRoundPrompt(context, resume.resumeText)
+        // ↑ PRODUCTION — swap for line below to test the editor pipeline:
+        prompt = testCodingRoundPrompt()
     } else if (type === RoundType.SYSTEM_DESIGN) {
         prompt = designRoundPrompt(context, resume.resumeText)
     } else if (type === RoundType.BEHAVIORAL) {
@@ -114,8 +116,18 @@ export const processCandidateMessage = async (sessionId: string, message: Client
                     mimeType: 'audio/pcm;rate=16000'
                 }
             })
+        } else if (message.type === 'candidate_code') {
+            session.geminiSocket.sendRealtimeInput({
+                text: `[EDITOR_UPDATE] The candidate's current code (${message.language}):\n\`\`\`${message.language}\n${message.code}\n\`\`\``
+            })
         }
     }
+}
+
+export const getSessionMeta = async (sessionId: string) => {
+    const cached = await getCacheSession(sessionId)
+    if (!cached) throw new AppError(404, 'Session not found')
+    return { type: cached.type }
 }
 
 export const endInterview = async (sessionId: string) => {

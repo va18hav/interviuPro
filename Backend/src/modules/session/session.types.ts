@@ -7,11 +7,17 @@ export interface CandidateMessage {
     data: string
 }
 
+export interface CandidateCodeUpdate {
+    type: 'candidate_code',
+    code: string
+    language: string
+}
+
 export interface EndInterview {
     type: 'end_interview'
 }
 
-export type ClientResponse = StartInterview | CandidateMessage | EndInterview
+export type ClientResponse = StartInterview | CandidateMessage | CandidateCodeUpdate | EndInterview
 
 export interface AIChunk {
     type: 'ai-chunk',

@@ -46,9 +46,10 @@ export default function Onboarding() {
     <div className="min-h-screen bg-[#0B0F19] text-white font-sans flex flex-col items-center pt-8 pb-20">
 
       {/* Interviu Logo */}
-      <div className="mb-6">
+      <div className="mb-6 flex flex-col items-center gap-2 select-none">
+        <img src="/logo.png" alt="Interviu Logo" className="h-10 w-auto" />
         <h2 className="text-xl font-bold tracking-tight">
-          Interviu<span className="text-[#00E599]">.</span>
+          Interv<span className="text-[#00E599]">i</span>u
         </h2>
       </div>
 
