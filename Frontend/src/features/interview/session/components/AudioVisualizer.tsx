@@ -1,8 +1,18 @@
+import { useState, useEffect } from "react";
 import { useSession } from "../context/SessionContext";
 
 export default function AudioVisualizer() {
-  const barCount = 45;
+  const [barCount, setBarCount] = useState(window.innerWidth < 640 ? 25 : 45);
   const { aiSpeaking, userSpeaking, generatingFeedback } = useSession()
+
+  useEffect(() => {
+    const handleResize = () => {
+      setBarCount(window.innerWidth < 640 ? 25 : 45);
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   if (generatingFeedback) return null;
 
   const isActive = aiSpeaking || userSpeaking;

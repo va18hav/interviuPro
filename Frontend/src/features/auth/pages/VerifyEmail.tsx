@@ -63,6 +63,12 @@ export default function VerifyEmail() {
     <div className="flex min-h-screen w-full bg-[#0B0F19] text-white font-sans">
       {/* RIGHT PANEL */}
       <div className="flex w-full flex-col justify-center items-center p-8 relative">
+        <div className="mb-6 flex flex-col items-center gap-2 select-none">
+          <img src="/logo.png" alt="Interviu Logo" className="h-12 w-auto" />
+          <h2 className="text-xl font-bold tracking-tight text-white font-inter">
+            Interv<span className="text-[#00E599]">i</span>u
+          </h2>
+        </div>
         <div className="w-full max-w-md bg-[#111827]/40 border border-gray-800/80 backdrop-blur-xl rounded-2xl p-8 shadow-2xl relative overflow-hidden transition-all duration-300">
 
           {/* Subtle neon glowing accent inside the card */}

@@ -1,22 +1,15 @@
-import { Plus, ChevronDown, Network, AlertCircle } from 'lucide-react';
+import { Plus, ChevronDown, Network, AlertCircle, Code, MessageSquare, LucideIcon } from 'lucide-react';
 import SessionCard from '../components/SessionCard';
 import SessionFilters from '../components/SessionFilters';
 import { useGetSessionsData } from '../hooks/sessionsDataHook';
 import SessionCardSkeleton from '../components/SessionCardSkeleton';
 
-// const useIcon = (type: 'Techical Round/Coding' | 'System Design' | 'Behavioral') => {
-//   switch (type) {
-//     case 'Techical Round/Coding':
-//       return Terminal
-//       break
-//     case 'System Design':
-//       return Network
-//       break
-//     case 'Behavioral':
-//       return Users
-//       break
-//   }
-// }
+const getSessionIcon = (type: string): LucideIcon => {
+  const t = type.toLowerCase();
+  if (t.includes('system') || t.includes('design')) return Network;
+  if (t.includes('coding') || t.includes('technical')) return Code;
+  return MessageSquare;
+};
 
 export default function Sessions() {
 
@@ -34,7 +27,7 @@ export default function Sessions() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0B0F19] text-white p-6 md:p-8 font-sans relative overflow-hidden">
+    <div className="min-h-screen bg-[#0B0F19] text-white p-4 sm:p-8 font-sans relative overflow-hidden">
       {/* Decorative gradient glows for high-end aesthetic */}
       <div className="absolute -top-40 -left-40 w-96 h-96 bg-[#00E599]/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-1/3 -right-40 w-96 h-96 bg-[#00E599]/3 rounded-full blur-[120px] pointer-events-none" />
@@ -73,7 +66,7 @@ export default function Sessions() {
                 type: session.type,
                 score: session.feedback?.overallScore || null,
                 verdict: session.feedback?.verdict || null,
-                icon: Network
+                icon: getSessionIcon(session.type)
               }
               return <SessionCard key={session.id} session={sessionData} />
             })

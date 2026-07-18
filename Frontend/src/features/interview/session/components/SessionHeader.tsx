@@ -20,11 +20,11 @@ export default function RoomHeader({ title, titleLoading }: RoomHeaderProps) {
   return (
     <div className="flex items-center justify-between border-b border-gray-800 pb-4">
       {/* Left: Brand Logo */}
-      <div className="flex items-center gap-1.5 select-none font-inter">
+      <div className="flex items-center gap-2 select-none font-inter">
+        <img src="/logo.png" alt="Interviu Logo" className="h-7 w-auto" />
         <span className="text-xl font-extrabold tracking-tight text-white">
-          interviu
+          interv<span className="text-[#00E599]">i</span>u
         </span>
-        <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#00E599] animate-pulse" />
       </div>
       {/* Center: Interview Type */}
       <h2 className="text-sm font-semibold tracking-wider text-[#00E599] uppercase">
