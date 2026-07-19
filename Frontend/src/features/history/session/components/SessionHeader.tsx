@@ -1,11 +1,17 @@
-import { ArrowLeft, Calendar, Clock, Network, Code, MessageSquare, LucideIcon } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, Network, Code, MessageSquare } from 'lucide-react';
 import { SessionData } from '../../session/types/session.types';
 
-const getSessionIcon = (type: string): LucideIcon => {
+interface SessionIconProps {
+  type: string;
+  size?: number;
+  className?: string;
+}
+
+const SessionIcon = ({ type, size = 12, className }: SessionIconProps) => {
   const t = type.toLowerCase();
-  if (t.includes('system') || t.includes('design')) return Network;
-  if (t.includes('coding') || t.includes('technical')) return Code;
-  return MessageSquare;
+  if (t.includes('system') || t.includes('design')) return <Network size={size} className={className} />;
+  if (t.includes('coding') || t.includes('technical')) return <Code size={size} className={className} />;
+  return <MessageSquare size={size} className={className} />;
 };
 
 interface SessionHeaderProps {
@@ -23,7 +29,6 @@ export default function SessionHeader({
     year: "numeric",
     timeZone: "UTC", // Keeps the date in UTC
   })
-  const Icon = getSessionIcon(sessionData.type);
 
   return (
     <div className="w-full space-y-5">
@@ -58,7 +63,7 @@ export default function SessionHeader({
         {/* Meta Info Row */}
         <div className='flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-4 border-t border-gray-800/50 md:border-t-0 pt-4 md:pt-0'>
           <div className='flex items-center gap-1.5 py-1 px-3 border border-gray-800 bg-[#111623]/80 rounded-full text-[11px] font-semibold uppercase tracking-wider text-gray-400 shrink-0'>
-            <Icon size={12} className="text-gray-500" />
+            <SessionIcon type={sessionData.type} size={12} className="text-gray-500" />
             <span>{sessionData.type}</span>
           </div>
           <div className="flex items-center gap-4 text-[14px] text-gray-500 font-medium">
