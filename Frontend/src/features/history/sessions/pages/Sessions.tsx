@@ -64,8 +64,8 @@ export default function Sessions() {
                 date: session.startedAt,
                 duration: session.duration,
                 type: session.type,
-                score: session.feedback?.overallScore || null,
-                verdict: session.feedback?.verdict || null,
+                score: session.feedback?.overallScore ?? null,
+                verdict: session.feedback?.verdict ?? null,
                 icon: getSessionIcon(session.type)
               }
               return <SessionCard key={session.id} session={sessionData} />

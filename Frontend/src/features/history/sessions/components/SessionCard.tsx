@@ -52,7 +52,7 @@ export default function SessionCard({ session }: SessionCardProps) {
   return (
     <div
       onClick={() => {
-        if (session.score) navigate(`/sessions/${session.id}`)
+        if (session.score !== null) navigate(`/sessions/${session.id}`)
       }}
       className="group flex flex-col md:flex-row md:items-center justify-between p-4 md:p-5 gap-3 bg-[#111623]/40 border border-gray-800/80 rounded-xl hover:border-[#00E599]/30 transition-all duration-300 cursor-pointer">
       <div className="flex items-start md:items-center gap-4">
@@ -84,7 +84,7 @@ export default function SessionCard({ session }: SessionCardProps) {
 
       {/* Right Score, Verdict and Arrow */}
 
-      {!session.score && (
+      {session.score === null && (
         <div className="flex items-center justify-end w-full md:w-auto border-t border-gray-800/40 md:border-none pt-3 md:pt-0 pl-16 md:pl-0">
           <span className="px-3 py-1 text-[10px] font-bold tracking-wider rounded border border-gray-850 bg-gray-900/10 text-gray-400 uppercase text-center w-full md:w-auto block">
             Generate Feedback
@@ -92,7 +92,7 @@ export default function SessionCard({ session }: SessionCardProps) {
         </div>
       )}
 
-      {session.verdict && (
+      {session.score !== null && (
         <div className="flex items-center justify-between md:justify-end gap-4 md:gap-6 w-full md:w-auto border-t border-gray-800/40 md:border-none pt-3 md:pt-0 pl-16 md:pl-0">
           {/* Score Block */}
           <div className="text-left md:text-center min-w-[70px]">

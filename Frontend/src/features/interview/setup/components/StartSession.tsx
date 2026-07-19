@@ -36,22 +36,22 @@ export default function StartSession({ interviewId, onStart, isPending }: StartS
             </div>
 
             {/* Duration */}
-            <div className="mb-6 flex items-center justify-between w-full">
+            <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-3 sm:gap-0">
                 <div className='shrink-0'>
                     <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Duration</label>
-                    <div className="flex bg-[#0B0F19] border border-gray-800 rounded-md p-1 max-w-[340px]">
+                    <div className="flex bg-[#0B0F19] border border-gray-800 rounded-md p-1 w-full sm:max-w-[340px]">
                         {durationOptions.map((min, index) => (
                             <button
                                 key={index}
                                 onClick={() => { setDuration(min) }}
-                                className={`px-15 py-1.5 text-xs whitespace-nowrap ${min === duration ? 'font-bold text-white bg-[#1A2235] rounded shadow-sm border border-gray-700 transition-colors' : 'font-semibold text-gray-400 hover:text-gray-300 transition-colors'}`}>
+                                className={`flex-1 px-6 py-1.5 text-xs whitespace-nowrap ${min === duration ? 'font-bold text-white bg-[#1A2235] rounded shadow-sm border border-gray-700 transition-colors' : 'font-semibold text-gray-400 hover:text-gray-300 transition-colors'}`}>
                                 {min} min
                             </button>
                         ))}
                     </div>
                 </div>
                 {/* Credits cost indicator */}
-                <div className="flex items-center gap-2 pt-6">
+                <div className="flex items-center gap-2 sm:pt-6">
                     <Hexagon className="text-[#00E599]" size={16} />
                     <span className="text-xs font-semibold text-gray-400">
                         This session will use ~{duration} credits

@@ -25,14 +25,14 @@ export default function InterviewCard({ interview }: InterviewCardProps) {
         {/* Title and Company Header */}
         <div className="flex items-start justify-between gap-4 mb-4">
           <div className="space-y-2">
-            <h3 className="text-lg font-bold text-white group-hover:text-[#00E599] transition-colors">
+            <h3 className="text-xl font-bold text-white group-hover:text-[#00E599] transition-colors">
               {interview.title}
             </h3>
             <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-block px-2.5 py-0.5 text-xs font-semibold text-gray-400 bg-[#181d2c] border border-gray-800/80 rounded">
+              <span className="inline-block px-2.5 py-0.5 text-sm font-semibold text-gray-400 bg-[#181d2c] border border-gray-800/80 rounded">
                 {interview.role}
               </span>
-              <span className="text-[10px] text-gray-500 font-semibold bg-[#111623] border border-gray-800/50 px-2 py-0.5 rounded-full flex items-center gap-1.5">
+              <span className="text-xs text-gray-500 font-semibold bg-[#111623] border border-gray-800/50 px-2 py-0.5 rounded-full flex items-center gap-1.5">
                 <span className={`w-1.5 h-1.5 rounded-full ${interview.totalSessions > 0 ? 'bg-[#00E599]' : 'bg-gray-600'}`}></span>
                 {interview.totalSessions} {interview.totalSessions === 1 ? 'session' : 'sessions'}
               </span>
@@ -49,7 +49,7 @@ export default function InterviewCard({ interview }: InterviewCardProps) {
             {interview.tags && interview.tags.map((tag, idx) => (
               <span
                 key={idx}
-                className="px-2.5 py-1 text-[10px] font-semibold text-gray-400 bg-[#161a26] border border-gray-800 rounded-full hover:border-[#00E599]/20 hover:text-white transition-colors duration-200"
+                className="px-2.5 py-1 text-xs font-semibold text-gray-400 bg-[#161a26] border border-gray-800 rounded-full hover:border-[#00E599]/20 hover:text-white transition-colors duration-200"
               >
                 {tag}
               </span>
@@ -63,7 +63,7 @@ export default function InterviewCard({ interview }: InterviewCardProps) {
         {interview.totalSessions === 0 ? (
           <button
             type="button"
-            onClick={() => navigate(`/interview/setup?interviewId=${interview.id}`)}
+            onClick={(e) => { e.stopPropagation(); navigate(`/interview/setup?interviewId=${interview.id}`) }}
             className="w-full py-3 px-4 flex items-center justify-center gap-2 rounded-xl bg-[#00E599]/5 hover:bg-[#00E599]/10 border border-[#00E599]/20 hover:border-[#00E599]/40 text-[#00E599] font-bold text-xs uppercase tracking-wider transition-all duration-300 group/btn shadow-[0_0_15px_rgba(0,229,153,0.02)] hover:shadow-[0_0_20px_rgba(0,229,153,0.06)]"
           >
             <span>Start First Session</span>
@@ -87,11 +87,11 @@ export default function InterviewCard({ interview }: InterviewCardProps) {
               </div>
               <button
                 type="button"
-                onClick={() => navigate(`/interview/setup?interviewId=${interview.id}`)}
-                className="text-[#00E599] hover:text-[#00c985] font-bold transition-colors flex items-center gap-1"
+                onClick={(e) => { e.stopPropagation(); navigate(`/interview/setup?interviewId=${interview.id}`) }}
+                className="text-[#00E599] hover:text-[#00c985] font-bold transition-colors flex items-center gap-1 text-sm"
               >
                 <span>Practice</span>
-                <Play size={10} className="fill-current" />
+                <Play size={11} className="fill-current" />
               </button>
             </div>
             {/* Progress Bar */}

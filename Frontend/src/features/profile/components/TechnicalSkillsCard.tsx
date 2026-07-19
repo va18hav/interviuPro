@@ -66,7 +66,7 @@ export default function TechnicalSkillsCard({
             <span className="text-xs text-gray-500 italic">No skills listed yet</span>
           )}
         </div>
-        <form onSubmit={handleAddSkill} className="flex gap-4">
+        <form onSubmit={handleAddSkill} className="flex flex-col sm:flex-row gap-2 sm:gap-4">
           <input
             type="text"
             placeholder="+ Add custom skill"
@@ -76,7 +76,7 @@ export default function TechnicalSkillsCard({
           />
           <button
             type="submit"
-            className="px-6 py-2.5 rounded-md border border-gray-700 bg-gray-800 hover:bg-gray-700 hover:border-gray-600 text-xs font-black tracking-widest text-white uppercase transition-all"
+            className="px-6 py-2.5 rounded-md border border-gray-700 bg-gray-800 hover:bg-gray-700 hover:border-gray-600 text-xs font-black tracking-widest text-white uppercase transition-all sm:w-auto w-full"
           >
             Add
           </button>
