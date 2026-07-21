@@ -1,60 +1,122 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export default function LandingHero() {
-  return (
-    <section className="relative pt-24 pb-20 px-6 overflow-hidden">
-      {/* Decorative Blur Ambient Glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#00E599]/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[350px] h-[350px] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none" />
+  const [isPlaying, setIsPlaying] = useState(true);
 
-      <div className="max-w-5xl mx-auto text-center space-y-8 relative z-10">
-        {/* Banner Pill */}
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#00E599]/25 bg-[#00E599]/5 text-[10px] md:text-xs font-black uppercase tracking-wider text-[#00E599] select-none animate-fade-in">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#00E599] animate-pulse" />
-          <span>Conversational Voice AI Interviewer</span>
+  // Exact waveform bar logic from session AudioVisualizer.tsx
+  const barCount = 35;
+
+  return (
+    <section className="relative min-h-[calc(100vh-4rem)] flex flex-col justify-center items-center py-10 px-6 bg-black text-center font-sans select-none overflow-hidden">
+      {/* Background Dot Grid */}
+      <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
+      
+      {/* Subtle Ambient Radial Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] bg-[#00E599]/6 rounded-full blur-[140px] pointer-events-none" />
+
+      <div className="max-w-4xl mx-auto space-y-6 relative z-10 flex flex-col items-center">
+        
+        {/* Session Page AI Avatar & Waveform Unit */}
+        <div className="flex flex-col items-center justify-center my-1 cursor-pointer" onClick={() => setIsPlaying(!isPlaying)}>
+          
+          {/* 1. Session Page AI Avatar */}
+          <div className="relative mb-3 group">
+            <div className="w-16 h-16 rounded-full bg-slate-800/40 border border-gray-800 overflow-hidden relative z-10 shadow-[0_0_20px_rgba(0,229,153,0.15)] group-hover:scale-105 transition-transform duration-300">
+              <img
+                alt="AI Avatar"
+                className="w-full h-full object-cover opacity-85 mix-blend-luminosity"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAh6BAvlA2rgvPzK2ZBqWZi0QxWAq-Qs9gbU7bpuhGb5ULCSvvcemeQLey7iliwnXMnaYWGCkqnlbDnrbwkqLC6khaW17G11ytuQdC1WfYtHgclSr4FwzvijhhWlxI-Fkks2kcGqjbgTzk4RiVOSbf9NvGelD4lZcYH6LhBPaMa0QnAR9iW1zy0H0XacFJ6NHaUPGRzy4w5EhmKbfEEHlhJ3uiIwQtM9DC1uvyTdHmOzz0Qy37CHYGN8yB4dh_4nSLKx4E9p0d21qA"
+              />
+            </div>
+            {/* Glowing ring when active */}
+            {isPlaying && (
+              <div className="absolute inset-0 rounded-full animate-ping bg-[#00E599]/10 border border-[#00E599]/30 z-0 pointer-events-none" />
+            )}
+          </div>
+
+          {/* 2. Borderless AudioVisualizer Waveform */}
+          <div className="w-72 sm:w-80 h-14 flex items-center justify-center gap-1 relative overflow-hidden px-4">
+            <style>{`
+              @keyframes hero-wave-pulse {
+                0%, 100% {
+                  transform: scaleY(0.15);
+                  opacity: 0.4;
+                }
+                50% {
+                  transform: scaleY(1.0);
+                  opacity: 1;
+                }
+              }
+              .animate-hero-bar {
+                animation: hero-wave-pulse 1.2s ease-in-out infinite;
+                transform-origin: center;
+                will-change: transform, opacity;
+              }
+            `}</style>
+
+            {/* Edge fading overlays */}
+            <div className="absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-black to-transparent pointer-events-none z-10" />
+            <div className="absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-black to-transparent pointer-events-none z-10" />
+
+            {/* The Waveform Bars */}
+            <div className="flex items-center justify-center gap-1.5 h-full w-full">
+              {Array.from({ length: barCount }).map((_, i) => {
+                const mid = barCount / 2;
+                const distFromMid = Math.abs(i - mid);
+                const maxScale = Math.max(0.2, 1.0 - (distFromMid / mid) * 0.7);
+                const delay = (Math.sin(i * 0.35) * 0.6).toFixed(2);
+                const duration = (0.9 + Math.cos(i * 0.25) * 0.3).toFixed(2);
+
+                return (
+                  <div
+                    key={i}
+                    className={`w-1 bg-[#00E599] rounded-full ${isPlaying ? 'animate-hero-bar' : ''}`}
+                    style={{
+                      height: `${maxScale * 36}px`,
+                      animationDelay: `${delay}s`,
+                      animationDuration: `${duration}s`,
+                      transform: isPlaying ? undefined : 'scaleY(0.1)',
+                      opacity: isPlaying ? undefined : 0.2,
+                      transition: 'transform 0.4s ease, opacity 0.4s ease'
+                    }}
+                  />
+                );
+              })}
+            </div>
+          </div>
+
         </div>
 
-        {/* Title */}
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1] max-w-4xl mx-auto">
-          Master the Interview.<br />
-          <span className="bg-gradient-to-r from-emerald-400 to-[#00E599] bg-clip-text text-transparent">
-            Speak with Confidence.
-          </span>
-        </h1>
+        {/* Hero Title & Subtext (Significantly smaller, matching LiveKit typography) */}
+        <div className="space-y-4 max-w-2xl">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-white leading-[1.15]">
+            Practice coding, system design, and behavioral interviews <span className="text-[#00E599] font-normal">out loud</span>
+          </h1>
 
-        {/* Subtext */}
-        <p className="text-base md:text-xl text-gray-400 font-medium max-w-2xl mx-auto leading-relaxed">
-          Practice realistic voice coding, system design, and behavioral interviews with Interviu. Get scored performance analytics and detailed feedback after every round.
-        </p>
+          <p className="text-gray-400 text-xs sm:text-sm font-normal max-w-lg mx-auto leading-relaxed">
+            Interviu is an AI mock interviewer that listens to your verbal explanations, reviews your code live, and gives actionable feedback.
+          </p>
+        </div>
 
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-md pt-2">
           <Link
             to="/login"
-            className="group flex items-center justify-center gap-2 px-6 py-3.5 bg-[#00E599] hover:bg-[#00c985] text-black font-extrabold text-sm rounded-lg transition-all shadow-[0_0_20px_rgba(0,229,153,0.25)] hover:shadow-[0_0_25px_rgba(0,229,153,0.45)] w-full sm:w-auto"
+            className="group flex items-center justify-center gap-2 px-6 py-2.5 bg-[#00E599] hover:bg-[#00c985] text-black font-bold text-xs sm:text-sm rounded-lg transition-all shadow-[0_0_20px_rgba(0,229,153,0.2)] hover:shadow-[0_0_25px_rgba(0,229,153,0.35)] w-full sm:w-auto hover:-translate-y-0.5 duration-200"
           >
-            <span>Start Practice Free</span>
-            <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
+            <span>Start practice free</span>
+            <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
           </Link>
           <a
             href="#features"
-            className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg border border-gray-700 hover:border-gray-500 bg-gray-900/30 hover:bg-gray-900/60 text-white font-bold text-sm transition-all w-full sm:w-auto"
+            className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg border border-white/10 hover:border-white/20 bg-zinc-950/60 hover:bg-zinc-900 text-white font-semibold text-xs sm:text-sm transition-all w-full sm:w-auto hover:-translate-y-0.5 duration-200"
           >
-            <Play size={14} className="fill-white" />
-            <span>Explore Features</span>
+            <span>Explore features</span>
           </a>
         </div>
 
-        {/* App Showcase Screenshot Mockup */}
-        <div className="relative mt-20 max-w-4xl mx-auto rounded-xl border border-gray-800 bg-[#111623]/30 shadow-[0_0_60px_rgba(0,229,153,0.06)] overflow-hidden scale-[0.99] hover:scale-100 transition-all duration-700 group">
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#00E599]/30 to-transparent" />
-          <img
-            src="/app_preview.png"
-            alt="Interviu App Interface Mockup"
-            className="w-full h-auto object-cover opacity-95 group-hover:opacity-100 transition-opacity duration-500"
-          />
-        </div>
       </div>
     </section>
   );

@@ -1,9 +1,10 @@
 @import "tailwindcss";
 
 @theme {
-    --font-sans: "Inter", system-ui, sans-serif;
-    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    --font-sans: "DM Sans", "Inter", system-ui, sans-serif;
+    --font-dm: "DM Sans", sans-serif;
     --font-inter: "Inter", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
 body {
