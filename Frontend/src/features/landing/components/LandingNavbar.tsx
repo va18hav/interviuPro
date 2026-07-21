@@ -32,7 +32,7 @@ export default function LandingNavbar() {
         <div className="flex items-center gap-4">
           <Link
             to="/login"
-            className="text-xs font-semibold text-gray-400 hover:text-white uppercase tracking-wider transition-colors px-3 py-1.5"
+            className="hidden md:block text-xs font-semibold text-gray-400 hover:text-white uppercase tracking-wider transition-colors px-3 py-1.5"
           >
             Log In
           </Link>

@@ -15,10 +15,10 @@ const InfoPanel = ({ className = '' }: { className?: string }) => {
 
       {/* Center Content */}
       <div className="flex-1 flex flex-col justify-center max-w-xl mt-8">
-        <h1 className="text-5xl xl:text-6xl font-bold tracking-tight text-white leading-tight">
+        <h1 className="text-5xl xl:text-6xl font-medium tracking-tight text-white leading-tight">
           Practice like it's real.
         </h1>
-        <h2 className="text-5xl xl:text-6xl font-bold tracking-tight text-gray-500 mb-16 leading-tight">
+        <h2 className="text-5xl xl:text-6xl font-medium tracking-tight text-gray-500 mb-16 leading-tight">
           So the real one feels<br />like practice.
         </h2>
 
