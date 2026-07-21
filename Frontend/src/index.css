@@ -11,6 +11,18 @@ body {
     font-family: var(--font-sans);
 }
 
+/* ── Kill browser autofill background ─────────────────────────────────────── */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #0B0F19 inset !important;
+    box-shadow: 0 0 0 1000px #0B0F19 inset !important;
+    -webkit-text-fill-color: #ffffff !important;
+    caret-color: #ffffff;
+    transition: background-color 9999s ease-in-out 0s;
+}
+
 @layer utilities {
     .no-scrollbar::-webkit-scrollbar {
         display: none;

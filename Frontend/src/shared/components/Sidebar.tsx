@@ -61,7 +61,7 @@ export default function Sidebar() {
         ) : (
           <div className="flex items-center gap-3">
             {/* Avatar */}
-            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#00E599] to-blue-500 border border-gray-700 flex items-center justify-center text-[10px] font-black text-white uppercase select-none shrink-0">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#00E599] to-[#00916a] border border-[#00E599]/20 flex items-center justify-center text-[10px] font-black text-black uppercase select-none shrink-0">
               {initials || '?'}
             </div>
             {/* Name and Plan */}
