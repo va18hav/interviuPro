@@ -1,6 +1,7 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
 import Login from "../features/auth/pages/Login";
 import VerifyEmail from "../features/auth/pages/VerifyEmail";
+import OAuthCallback from "../features/auth/pages/OAuthCallback";
 import Onboarding from "../features/profile/pages/Onboarding";
 import Dashboard from "../features/dashboard/pages/Dashboard";
 import AppLayout from "../shared/components/AppLayout";
@@ -20,6 +21,8 @@ export const router = createBrowserRouter(
       <Route index element={<Landing />} />
       <Route path="login" element={<Login />} />
       <Route path="verify-email" element={<VerifyEmail />} />
+      <Route path="oauth-success" element={<OAuthCallback status="success" />} />
+      <Route path="oauth-error" element={<OAuthCallback status="error" />} />
       <Route path="onboarding" element={<Onboarding />} />
       <Route element={<AppLayout />}>
         <Route path="dashboard" element={<Dashboard />} />

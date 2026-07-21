@@ -2,16 +2,20 @@ import { Request, Response } from "express"
 import { registerUserSchema, loginUserSchema, resetPasswordSchema } from "./auth.types"
 import * as authService from './auth.service'
 
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173'
+
+const cookieOptions = (req: Request) => ({
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: (process.env.NODE_ENV === 'production' ? 'none' : 'lax') as 'none' | 'lax',
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+})
+
 export const registerUser = async (req: Request, res: Response) => {
     const data = registerUserSchema.parse(req.body)
     const result = await authService.register(data)
     res
-        .cookie('token', result.token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production' ? true : false,
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        })
+        .cookie('token', result.token, cookieOptions(req))
         .status(201)
         .json({
             success: true,
@@ -25,12 +29,7 @@ export const verifyEmail = async (req: Request, res: Response) => {
     const userId = req.userId as string
     const result = await authService.verifyEmail(otp, userId)
     res
-        .cookie('token', result.token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production' ? true : false,
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        })
+        .cookie('token', result.token, cookieOptions(req))
         .status(200)
         .json({
             success: true,
@@ -52,12 +51,7 @@ export const loginUser = async (req: Request, res: Response) => {
     const data = loginUserSchema.parse(req.body)
     const result = await authService.login(data)
     res
-        .cookie('token', result.token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production' ? true : false,
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        })
+        .cookie('token', result.token, cookieOptions(req))
         .status(200)
         .json({
             success: true,
@@ -70,8 +64,8 @@ export const logutUser = (req: Request, res: Response) => {
     res
         .clearCookie('token', {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production' ? true : false,
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: (process.env.NODE_ENV === 'production' ? 'none' : 'lax') as 'none' | 'lax',
         })
         .status(200)
         .json({
@@ -91,23 +85,50 @@ export const resetPassword = async (req: Request, res: Response) => {
     })
 }
 
-export const googleLogin = async (req: Request, res: Response) => {
-    const { token } = req.body
-    if (!token) {
-        return res.status(400).json({ success: false, message: 'Google token is required' })
+// ─── Google OAuth ─────────────────────────────────────────────────────────────
+
+export const googleRedirect = (req: Request, res: Response) => {
+    const url = authService.googleOAuthRedirect()
+    res.redirect(url)
+}
+
+export const googleCallback = async (req: Request, res: Response) => {
+    try {
+        const { code, error } = req.query as { code?: string; error?: string }
+        if (error || !code) {
+            const msg = error || 'Google sign-in was cancelled'
+            return res.redirect(`${FRONTEND_URL}/oauth-error?message=${encodeURIComponent(msg)}`)
+        }
+        const result = await authService.googleOAuthCallback(code)
+        res
+            .cookie('token', result.token, cookieOptions(req))
+            .redirect(`${FRONTEND_URL}/oauth-success`)
+    } catch (err: any) {
+        const msg = err?.message || 'Google sign-in failed'
+        res.redirect(`${FRONTEND_URL}/oauth-error?message=${encodeURIComponent(msg)}`)
     }
-    const result = await authService.googleAuth(token)
-    res
-        .cookie('token', result.token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production' ? true : false,
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        })
-        .status(200)
-        .json({
-            success: true,
-            message: 'User logged in successfully with Google',
-            data: result.user
-        })
+}
+
+// ─── GitHub OAuth ─────────────────────────────────────────────────────────────
+
+export const githubRedirect = (req: Request, res: Response) => {
+    const url = authService.githubOAuthRedirect()
+    res.redirect(url)
+}
+
+export const githubCallback = async (req: Request, res: Response) => {
+    try {
+        const { code, error } = req.query as { code?: string; error?: string }
+        if (error || !code) {
+            const msg = error || 'GitHub sign-in was cancelled'
+            return res.redirect(`${FRONTEND_URL}/oauth-error?message=${encodeURIComponent(msg)}`)
+        }
+        const result = await authService.githubOAuthCallback(code)
+        res
+            .cookie('token', result.token, cookieOptions(req))
+            .redirect(`${FRONTEND_URL}/oauth-success`)
+    } catch (err: any) {
+        const msg = err?.message || 'GitHub sign-in failed'
+        res.redirect(`${FRONTEND_URL}/oauth-error?message=${encodeURIComponent(msg)}`)
+    }
 }

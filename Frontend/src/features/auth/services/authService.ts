@@ -36,7 +36,18 @@ export const logout = async () => {
     return response.data.message
 }
 
-export const loginWithGoogle = async (token: string) => {
-    const response = await apiClient.post<AuthResponseAPI>('/auth/google', { token })
-    return response.data.data
+/**
+ * Redirects the browser to the backend Google OAuth authorization URL.
+ * The backend will handle the full OAuth code exchange server-side.
+ */
+export const redirectToGoogleOAuth = () => {
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`
+}
+
+/**
+ * Redirects the browser to the backend GitHub OAuth authorization URL.
+ * The backend will handle the full OAuth code exchange server-side.
+ */
+export const redirectToGithubOAuth = () => {
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/github`
 }

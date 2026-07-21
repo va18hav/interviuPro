@@ -113,23 +113,15 @@ export const useLogout = () => {
     }
 }
 
-export const useGoogleLogin = () => {
-    const navigate = useNavigate()
-    const queryClient = useQueryClient()
-    const { mutate, isPending, isSuccess } = useMutation({
-        mutationFn: authService.loginWithGoogle,
-        onSuccess: () => {
-            queryClient.clear()
-            toast.success('Logged in successfully with Google')
-            navigate('/dashboard')
-        },
-        onError: (err: any) => {
-            toast.error(err.response?.data?.message || err.message || 'Google sign-in failed')
-        }
-    })
+/**
+ * Simple redirect hooks — no mutation needed.
+ * Clicking these sends the browser to the backend OAuth entry points.
+ * The backend handles code exchange, sets an httpOnly cookie, and redirects
+ * the browser back to /oauth-success or /oauth-error.
+ */
+export const useOAuthRedirect = () => {
     return {
-        googleLogin: mutate,
-        googleLoginPending: isPending,
-        googleLoginSuccess: isSuccess
+        loginWithGoogle: authService.redirectToGoogleOAuth,
+        loginWithGithub: authService.redirectToGithubOAuth,
     }
 }
