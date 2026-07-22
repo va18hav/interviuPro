@@ -108,19 +108,21 @@ function signUserToken(user: { id: string; isEmailVerified: boolean }) {
 
 // ─── Google ───────────────────────────────────────────────────────────────────
 
-export const googleOAuthRedirect = () => {
+export const googleOAuthRedirect = (backendBaseUrl: string, frontendOrigin?: string) => {
+    const state = frontendOrigin ? Buffer.from(JSON.stringify({ frontendOrigin })).toString('base64url') : ''
     const params = new URLSearchParams({
         client_id: process.env.GOOGLE_CLIENT_ID!,
-        redirect_uri: `${process.env.BACKEND_URL || 'http://localhost:3000'}/auth/google/callback`,
+        redirect_uri: `${backendBaseUrl}/auth/google/callback`,
         response_type: 'code',
         scope: 'email profile',
         access_type: 'offline',
         prompt: 'select_account',
+        ...(state && { state }),
     })
     return `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`
 }
 
-export const googleOAuthCallback = async (code: string) => {
+export const googleOAuthCallback = async (code: string, backendBaseUrl: string) => {
     // Exchange code for tokens
     const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
         method: 'POST',
@@ -129,7 +131,7 @@ export const googleOAuthCallback = async (code: string) => {
             code,
             client_id: process.env.GOOGLE_CLIENT_ID!,
             client_secret: process.env.GOOGLE_CLIENT_SECRET!,
-            redirect_uri: `${process.env.BACKEND_URL || 'http://localhost:3000'}/auth/google/callback`,
+            redirect_uri: `${backendBaseUrl}/auth/google/callback`,
             grant_type: 'authorization_code',
         }).toString(),
     })
@@ -166,16 +168,18 @@ export const googleOAuthCallback = async (code: string) => {
 
 // ─── GitHub ───────────────────────────────────────────────────────────────────
 
-export const githubOAuthRedirect = () => {
+export const githubOAuthRedirect = (backendBaseUrl: string, frontendOrigin?: string) => {
+    const state = frontendOrigin ? Buffer.from(JSON.stringify({ frontendOrigin })).toString('base64url') : ''
     const params = new URLSearchParams({
         client_id: process.env.GITHUB_CLIENT_ID!,
-        redirect_uri: `${process.env.BACKEND_URL || 'http://localhost:3000'}/auth/github/callback`,
+        redirect_uri: `${backendBaseUrl}/auth/github/callback`,
         scope: 'user:email',
+        ...(state && { state }),
     })
     return `https://github.com/login/oauth/authorize?${params.toString()}`
 }
 
-export const githubOAuthCallback = async (code: string) => {
+export const githubOAuthCallback = async (code: string, backendBaseUrl: string) => {
     // Exchange code for access token
     const tokenRes = await fetch('https://github.com/login/oauth/access_token', {
         method: 'POST',
@@ -187,7 +191,7 @@ export const githubOAuthCallback = async (code: string) => {
             client_id: process.env.GITHUB_CLIENT_ID!,
             client_secret: process.env.GITHUB_CLIENT_SECRET!,
             code,
-            redirect_uri: `${process.env.BACKEND_URL || 'http://localhost:3000'}/auth/github/callback`,
+            redirect_uri: `${backendBaseUrl}/auth/github/callback`,
         }),
     })
 
