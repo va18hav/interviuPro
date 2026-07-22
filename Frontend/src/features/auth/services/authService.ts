@@ -37,17 +37,19 @@ export const logout = async () => {
 }
 
 /**
- * Redirects the browser to the backend Google OAuth authorization URL.
- * The backend will handle the full OAuth code exchange server-side.
+ * Redirects the browser to the backend Google OAuth authorization URL,
+ * passing the current frontend origin so the backend redirects back to the right domain.
  */
 export const redirectToGoogleOAuth = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`
+    const origin = encodeURIComponent(window.location.origin)
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google?redirect_origin=${origin}`
 }
 
 /**
- * Redirects the browser to the backend GitHub OAuth authorization URL.
- * The backend will handle the full OAuth code exchange server-side.
+ * Redirects the browser to the backend GitHub OAuth authorization URL,
+ * passing the current frontend origin so the backend redirects back to the right domain.
  */
 export const redirectToGithubOAuth = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL}/auth/github`
+    const origin = encodeURIComponent(window.location.origin)
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/github?redirect_origin=${origin}`
 }
